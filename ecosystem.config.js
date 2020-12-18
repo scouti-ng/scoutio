@@ -5,6 +5,12 @@ apps: [
         script: "./index.js",
         env: {
             NODE_ENV: "production",
+            githook: {
+                command: 'git pull && npm i && pm2 restart scoutio',
+                branch: 'main',
+                port: 8888,
+                secret: 'scoutiowepwop'
+            }
         },
         env_test: {
             NODE_ENV: "test",
