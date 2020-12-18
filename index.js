@@ -7,7 +7,7 @@
 // Imports
 const RestNio = require('restnio');
 new RestNio((router, rnio) => {
-    router.get('/', () => "Serve index... :-)");
+    router.get('/', () => "Serve index... It works :-)");
 
     router.ws('/join', {
         params: {
