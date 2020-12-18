@@ -8,7 +8,7 @@ apps: [
             githook: {
                 command: 'git pull && npm i && pm2 restart scoutio',
                 branch: 'main',
-                port: 8888,
+                port: 7777,
                 secret: 'scoutiowepwop'
             }
         },
