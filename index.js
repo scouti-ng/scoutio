@@ -9,7 +9,7 @@ const RestNio = require('restnio');
 new RestNio((router, rnio) => {
     router.use('**', rnio.cors({origin: '*'}));
 
-    router.get('/', () => "Serve index... It works :-)");
+    router.get('/', () => "Serve index... It works... :-)");
 
     router.ws('/join', {
         params: {
