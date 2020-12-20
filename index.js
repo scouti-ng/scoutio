@@ -13,10 +13,12 @@ new RestNio((router, rnio) => {
 
     router.ws('/join', {
         params: {
-            room: rnio.params.forcedString
+            room: rnio.params.forcedString,
+            name: rnio.params.string
         },
         func: (params, client) => {
             client.props.room = params.room;
+            client.props.name = params.name;
             client.subscribe(params.room);
             return `Subscribed to ${params.room}`;
         }
@@ -28,7 +30,7 @@ new RestNio((router, rnio) => {
         },
         func: (params, client) => {
             if (!client.props.room) throw [403, 'Client is not in a room!'];
-            rnio.subs(client.props.room).obj({type: 'chat', msg: params.msg});
+            rnio.subs(client.props.room).obj({type: 'chat', msg: `${client.props.name}: ${params.msg}`});
         }
     });
 
