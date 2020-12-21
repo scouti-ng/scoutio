@@ -20,11 +20,11 @@ new RestNio((router, rnio) => {
             client.props.room = params.room;
             client.props.name = params.name;
             client.subscribe(params.room);
-            return {
+            rnio.subs(params.room).obj({
                 type: 'roominfo',
                 room: params.room,
                 players: Array.from(rnio.subs(params.room)).map(client => client.props.name)
-            };
+            });
         }
     });
 
