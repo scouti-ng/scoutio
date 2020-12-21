@@ -11,6 +11,18 @@ new RestNio((router, rnio) => {
 
     router.get('/', () => "Serve index... It works... :-)");
 
+    router.get('/test', {
+        params: {
+            age: rnio.params.forcedString
+        },
+        func: (params, client) => {
+            //test
+            return JSON.stringify(params);
+        }
+    });
+
+    router.post('/test', (params) => JSON.stringify(params));
+
     router.ws('/join', {
         params: {
             room: rnio.params.forcedString,
