@@ -20,7 +20,11 @@ new RestNio((router, rnio) => {
             client.props.room = params.room;
             client.props.name = params.name;
             client.subscribe(params.room);
-            return `Subscribed to ${params.room}`;
+            return {
+                type: 'roominfo',
+                room: params.room,
+                players: Array.from(rnio.subs(params.room)).map(client => client.props.name)
+            };
         }
     });
 
@@ -31,6 +35,16 @@ new RestNio((router, rnio) => {
         func: (params, client) => {
             if (!client.props.room) throw [403, 'Client is not in a room!'];
             rnio.subs(client.props.room).obj({type: 'chat', msg: `${client.props.name}: ${params.msg}`});
+        }
+    });
+    
+    router.ws('/vote', {
+        params: {
+            for: rnio.params.string
+        },
+        func: (params, client) => {
+            if(!client.props.room) throw [403, 'Client is not in a room!'];
+            rnio.subs(client.props.room).obj({type: 'vote', for: params.for});
         }
     });
 
