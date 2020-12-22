@@ -14,16 +14,19 @@ new RestNio((router, rnio) => {
     router.ws('/join', {
         params: {
             room: rnio.params.forcedString,
-            name: rnio.params.string
+            name: rnio.params.string,
+            isAdmin: rnio.params.string
         },
         func: (params, client) => {
             client.props.room = params.room;
             client.props.name = params.name;
+            client.props.isAdmin = params.isAdmin;
             client.subscribe(params.room);
             rnio.subs(params.room).obj({
                 type: 'roominfo',
                 room: params.room,
-                players: Array.from(rnio.subs(params.room)).map(client => client.props.name)
+                players: Array.from(rnio.subs(params.room)).filter(client => !client.props.isAdmin).map(client => client.props.name),
+                leiding: Array.from(rnio.subs(params.room)).filter(client => client.props.isAdmin).map(client => client.props.name)
             });
         }
     });
