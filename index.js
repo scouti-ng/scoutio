@@ -15,7 +15,7 @@ new RestNio((router, rnio) => {
         params: {
             room: rnio.params.forcedString,
             name: rnio.params.string,
-            isAdmin: rnio.params.string
+            isAdmin: rnio.params.boolean
         },
         func: (params, client) => {
             client.props.room = params.room;
