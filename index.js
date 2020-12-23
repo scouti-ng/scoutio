@@ -37,7 +37,11 @@ new RestNio((router, rnio) => {
         },
         func: (params, client) => {
             if (!client.props.room) throw [403, 'Client is not in a room!'];
-            rnio.subs(client.props.room).obj({type: 'chat', msg: `${client.props.name}: ${params.msg}`});
+            rnio.subs(client.props.room).obj({
+                type: 'chat',
+                from: `${client.props.name}`,
+                msg: `${params.msg}`
+            });
         }
     });
     
