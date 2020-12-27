@@ -31,21 +31,16 @@ new RestNio((router, rnio) => {
         }
     });
     
-    router.ws('/leave', {
-        params: {
-            room: rnio.params.forcedString,
-            name: rnio.params.string
-        },
+    router.on('wsClose', {
         func: (params, client) => {
-            client.props.room = params.room;
-            client.props.name = params.name;
-            client.unsubscribe(params.room);
-            rnio.subs(params.room).obj({
-                type: 'roominfo',
-                room: params.room,
-                players: Array.from(rnio.subs(params.room)).filter(client => !client.props.isAdmin).map(client => client.props.name),
-                leiding: Array.from(rnio.subs(params.room)).filter(client => client.props.isAdmin).map(client => client.props.name)
-            });
+            if(client.props.room) {
+                rnio.subs(client.props.room).obj({
+                    type: 'roominfo',
+                    room: client.props.room,
+                    players: Array.from(rnio.subs(client.props.room)).filter(client => !client.props.isAdmin).map(client => client.props.name),
+                    leiding: Array.from(rnio.subs(client.props.room)).filter(client => client.props.isAdmin).map(client => client.props.name)
+                });
+            }
         }
     });
 
