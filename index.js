@@ -30,6 +30,24 @@ new RestNio((router, rnio) => {
             });
         }
     });
+    
+    router.ws('/leave', {
+        params: {
+            room: rnio.params.forcedString,
+            name: rnio.params.string
+        },
+        func: (params, client) => {
+            client.props.room = params.room;
+            client.props.name = params.name;
+            client.unsubscribe(params.room);
+            rnio.subs(params.room).obj({
+                type: 'roominfo',
+                room: params.room,
+                players: Array.from(rnio.subs(params.room)).filter(client => !client.props.isAdmin).map(client => client.props.name),
+                leiding: Array.from(rnio.subs(params.room)).filter(client => client.props.isAdmin).map(client => client.props.name)
+            });
+        }
+    });
 
     router.ws('/chat', {
         params: {
