@@ -25,7 +25,7 @@ new RestNio((router, rnio) => {
             rnio.subs(params.room).obj({
                 type: 'roominfo',
                 room: params.room,
-                players: Array.from(rnio.subs(params.room)).filter(client => !client.props.isAdmin).map(client => client.props.name),
+                players: Array.from(rnio.subs(params.room)).map(client => client.props.name),
                 leiding: Array.from(rnio.subs(params.room)).filter(client => client.props.isAdmin).map(client => client.props.name)
             });
         }
@@ -37,7 +37,7 @@ new RestNio((router, rnio) => {
                 rnio.subs(client.props.room).obj({
                     type: 'roominfo',
                     room: client.props.room,
-                    players: Array.from(rnio.subs(client.props.room)).filter(client => !client.props.isAdmin).map(client => client.props.name),
+                    players: Array.from(rnio.subs(client.props.room)).map(client => client.props.name),
                     leiding: Array.from(rnio.subs(client.props.room)).filter(client => client.props.isAdmin).map(client => client.props.name)
                 });
             }
