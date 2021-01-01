@@ -10,6 +10,19 @@ new RestNio((router, rnio) => {
     router.use('**', rnio.cors({origin: '*'}));
 
     router.get('/', () => "Serve index... It works... :-)");
+    
+    router.on('wsClose', {
+        func: (params, client) => {
+            if(client.props.room) {
+                rnio.subs(client.props.room).obj({
+                    type: 'roominfo',
+                    room: client.props.room,
+                    players: Array.from(rnio.subs(client.props.room)).map(client => client.props.name),
+                    leiding: Array.from(rnio.subs(client.props.room)).filter(client => client.props.isAdmin).map(client => client.props.name)
+                });
+            }
+        }
+    });
 
     router.ws('/join', {
         params: {
@@ -28,19 +41,6 @@ new RestNio((router, rnio) => {
                 players: Array.from(rnio.subs(params.room)).map(client => client.props.name),
                 leiding: Array.from(rnio.subs(params.room)).filter(client => client.props.isAdmin).map(client => client.props.name)
             });
-        }
-    });
-    
-    router.on('wsClose', {
-        func: (params, client) => {
-            if(client.props.room) {
-                rnio.subs(client.props.room).obj({
-                    type: 'roominfo',
-                    room: client.props.room,
-                    players: Array.from(rnio.subs(client.props.room)).map(client => client.props.name),
-                    leiding: Array.from(rnio.subs(client.props.room)).filter(client => client.props.isAdmin).map(client => client.props.name)
-                });
-            }
         }
     });
 
