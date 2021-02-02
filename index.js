@@ -44,7 +44,7 @@ new RestNio((router, rnio) => {
         func: (params) => {
             let roomdata = roomdatas[params.roomcode];
             // Connecting as regular player
-            if (!pwd) {
+            if (!params.pwd) {
                 if (!roomdata) throw [404, 'Room not found!'];
                 return rnio.token.sign({
                     name: params.name,
@@ -58,7 +58,7 @@ new RestNio((router, rnio) => {
                 if (!roomdata) {
                     roomdata = {
                         pwd: params.pwd
-                    }
+                    };
                     roomdatas[params.roomcode] = roomdata;
                 // If the room is already here, try to join with secret.
                 } else {
