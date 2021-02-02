@@ -132,5 +132,10 @@ new RestNio((router, rnio) => {
     });
 
 }, {
-    port: 7070
+    port: 7070,
+    default: {
+        httpProperties: {
+            jsonResponse: true
+        }
+    }
 }).bind();
