@@ -107,9 +107,12 @@ new RestNio((router, rnio) => {
                 players: Array.from(rnio.subs(token.roomcode)).map(client => client.props.name),
                 leiding: Array.from(rnio.subs(token.roomcode)).filter(client => client.props.isAdmin).map(client => client.props.name)
             });
-            let response = client.props;
-            response.type = 'joininfo';
-            return response;
+            return {
+                type: 'joininfo',
+                roomcode: token.roomcode,
+                name: token.name,
+                isAdmin: token.isAdmin
+            };
         }
     });
 
