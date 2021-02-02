@@ -7,6 +7,17 @@
 // Imports
 const RestNio = require('restnio');
 new RestNio((router, rnio) => {
+
+    let roomdatas = {};
+
+    /**
+     * roomdatas = {
+     *      "roomcode": {
+     *          pwd: "pwd"
+     *      }
+     * }
+     */
+
     router.use('**', rnio.cors({origin: '*'}));
 
     router.get('/', () => "Serve index... It works... :-)");
@@ -30,9 +41,36 @@ new RestNio((router, rnio) => {
                 checks: [rnio.params.$c.str.regex(/^\w{2,}$/)]
             }
         },
-        func: (params, client) => {
-            // client.redirect(`https://scouti.ng/weerwolven.html?name=${params.name}$roomcode=${params.roomcode}&leiding=${params.pwd ? 'on': 'off'}`)
-            return params;
+        func: (params) => {
+            let roomdata = roomdatas[params.roomcode];
+            // Connecting as regular player
+            if (!pwd) {
+                if (!roomdata) throw [404, 'Room not found!'];
+                return rnio.token.sign({
+                    name: params.name,
+                    roomcode: params.roomcode,
+                    isAdmin: false,
+                    permissions: [`player`]
+                });
+            // Connecting as admin.
+            } else {
+                // If a room does not exist yet: create with secret.
+                if (!roomdata) {
+                    roomdata = {
+                        pwd: params.pwd
+                    }
+                    roomdatas[params.roomcode] = roomdata;
+                // If the room is already here, try to join with secret.
+                } else {
+                    if (roomdata.pwd !== params.pwd) throw [403, 'Invalid room pwd!'];
+                }
+                return rnio.token.sign({
+                    name: params.name,
+                    roomcode: params.roomcode,
+                    isAdmin: true,
+                    permissions: [`player`, `admin`]
+                });
+            }
         }
     });
     
