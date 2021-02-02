@@ -31,8 +31,8 @@ new RestNio((router, rnio) => {
             }
         },
         func: (params, client) => {
-            client.redirect(`https://scouti.ng/weerwolven.html?name=${params.name}$roomcode=${params.roomcode}&leiding=${params.pwd ? 'on': 'off'}`)
-            // return params;
+            // client.redirect(`https://scouti.ng/weerwolven.html?name=${params.name}$roomcode=${params.roomcode}&leiding=${params.pwd ? 'on': 'off'}`)
+            return params;
         }
     });
     
