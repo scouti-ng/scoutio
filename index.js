@@ -89,21 +89,27 @@ new RestNio((router, rnio) => {
 
     router.ws('/join', {
         params: {
-            room: rnio.params.forcedString,
-            name: rnio.params.string,
-            isAdmin: rnio.params.boolean
+            session: rnio.params.string
         },
-        func: (params, client) => {
-            client.props.room = params.room;
-            client.props.name = params.name;
-            client.props.isAdmin = params.isAdmin;
-            client.subscribe(params.room);
-            rnio.subs(params.room).obj({
+        func: async (params, client) => {
+            let token = await rnio.token.verify(params.session);
+            // Extract info from token & store on client.
+            client.props.room = token.roomcode;
+            client.props.name = token.name;
+            client.props.isAdmin = token.isAdmin;
+            // Grant token permissions to client.
+            client.grantPerm(token.permissions);
+            // Sub websocket to the roo,
+            client.subscribe(token.roomcode);
+            rnio.subs(token.roomcode).obj({
                 type: 'roominfo',
-                room: params.room,
-                players: Array.from(rnio.subs(params.room)).map(client => client.props.name),
-                leiding: Array.from(rnio.subs(params.room)).filter(client => client.props.isAdmin).map(client => client.props.name)
+                room: token.roomcode,
+                players: Array.from(rnio.subs(token.roomcode)).map(client => client.props.name),
+                leiding: Array.from(rnio.subs(token.roomcode)).filter(client => client.props.isAdmin).map(client => client.props.name)
             });
+            let response = client.props;
+            response.type = 'joininfo';
+            return response;
         }
     });
 
