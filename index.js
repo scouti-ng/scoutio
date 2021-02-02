@@ -10,6 +10,31 @@ new RestNio((router, rnio) => {
     router.use('**', rnio.cors({origin: '*'}));
 
     router.get('/', () => "Serve index... It works... :-)");
+
+    router.post('/requestAccess', {
+        params: {
+            name: {
+                type: 'string',
+                required: true,
+                checks: [rnio.params.$c.str.regex(/^\w{2,}$/)]
+            },
+            roomcode: {
+                type: 'string',
+                required: true,
+                checks: [rnio.params.$c.str.regex(/^\w{5,}$/)]
+            },
+            pwd: {
+                type: 'string',
+                required: false,
+                ignoreEmptyString: true,
+                checks: [rnio.params.$c.str.regex(/^\w{2,}$/)]
+            }
+        },
+        func: (params, client) => {
+            client.redirect(`https://scouti.ng/weerwolven.html?name=${params.name}$roomcode=${params.roomcode}&leiding=${params.pwd ? 'on': 'off'}`)
+            // return params;
+        }
+    });
     
     router.on('wsClose', {
         func: (params, client) => {
