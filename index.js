@@ -45,8 +45,8 @@ new RestNio((router, rnio) => {
             let roomdata = roomdatas[params.roomcode];
             // Connecting as regular player
             if (!params.pwd) {
-                if (!roomdata) throw [404, 'Kamer niet gevonden!'];
                 if (params.roomcode.toUpperCase() === 'KOFFIE') throw [418, "I'm a teapot!"];
+                if (!roomdata) throw [404, 'Kamer niet gevonden!'];
                 return rnio.token.sign({
                     name: params.name,
                     roomcode: params.roomcode,
