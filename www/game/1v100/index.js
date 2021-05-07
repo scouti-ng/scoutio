@@ -20,6 +20,7 @@ module.exports = (router, rnio) => {
     router.get('/server', {
         func: (params, client) => {
             params.styles = ['/game/1vs100/common.css', '/game/1vs100/server.css'];
+            params.scripts = ['/game.js']
             // return client.token;
             return files.makePage(files.game.v1v100.server, client, params);
         }

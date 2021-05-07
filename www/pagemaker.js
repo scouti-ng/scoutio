@@ -36,7 +36,7 @@ module.exports = {
         let xtraScripts = '';
         if (variables.scripts) {
             for (let scr of variables.scripts) {
-                xtraScripts += `<script src="${scr}" defer>\n`;
+                xtraScripts += `<script src="${scr}" defer></script>\n`;
             }
         }
         let xtraStyles = '';

@@ -18,7 +18,8 @@ module.exports = (router, rnio) => {
         // Sanitise input or redirect back:
         if (!params.username || !params.code) client.redirect('/?error=You must enter both name and code.');
         if (!/^\w{3,10}$/.test(params.username)) client.redirect('/?error=Invalid name! Should be 3-10 letters or numbers.');
-        if (!/^[a-zA-Z0-9-]{3,10}$/.test(params.code)) client.redirect('/?error=Invalid code! Should be 3-10 letters or numbers.');
+        params.code = params.code.toUpperCase();
+        if (!/^[A-Z0-9-]{6}$/.test(params.code)) client.redirect('/?error=Invalid code! Should be 6 letters or numbers or \'-\'.');
 
         return 'hi';
     });
