@@ -1,3 +1,4 @@
+const GameUtils = require('../api/GameUtils');
 const files = require('./pagemaker');
 /** @typedef {import("restnio").RouteBack} RouteBack */
 
@@ -23,14 +24,21 @@ module.exports = (router, rnio) => {
     });
 
     // Hosting
-    router.get('/host', (params, client) => {
+    router.get('/host', async (params, client) => {
         // If no game is selected yet, show the game page.
         if (!params.game) {
             return files.makePage(files.pages.games, client, {footer: true});
         } else {
             switch (params.game) {
                 case '1vs100':
-                    // Do stuff
+                    let roomInfo = GameUtils.newRoom(params.game);
+                    client.cookie('token', await rnio.token.sign({
+                        type: 'host',
+                        game: roomInfo.game,
+                        room: roomInfo.code,
+                        permissions: [`room.${roomInfo.code}.server`,  `game.${roomInfo.game}.server`]
+                    }));
+                    client.redirect(`/game/${roomInfo.game}/server`);
                 break;
                 default: 
                     return files.makePage(files.pages.games, client, {footer: true, error: 'That game does not exist!?'});
@@ -39,5 +47,5 @@ module.exports = (router, rnio) => {
     });
 
     // Import the games
-    router.use('/game/1v100', require('./game/1v100'));
+    router.use('/game/1vs100', require('./game/1v100/'));
 };

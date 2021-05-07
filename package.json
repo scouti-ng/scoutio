@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/scouti-ng/scoutio#readme",
   "dependencies": {
-    "restnio": "^3.7.12"
+    "restnio": "^3.7.13",
+    "xss": "^1.0.8"
   }
 }

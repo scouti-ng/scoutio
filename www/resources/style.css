@@ -1,0 +1,165 @@
+:root {
+    --cprimary:     #698f3f;
+    --cbright:      yellowgreen;
+    --csecondary:   #31461a;
+    --cbacky:       #3835352f;
+    --cwhite:       #ffffff;
+    --cwhitered:    #f3b6b6;
+    --cred:         #ca2424;
+}
+
+* {
+    font-family: monospace;
+}
+
+body {
+    /* Keeps the footer at bottem */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    height: 100vh;
+    width: 100%;
+
+    /* Background thingy */
+    background-color: #fff;
+    background-image: radial-gradient(circle, var(--cbacky) 30%, transparent 10%), radial-gradient(circle, var(--cbacky) 20%, transparent 10%);
+    background-size: 10px 10px;
+    background-position: 0 0, 5px 5px;
+}
+.headbody {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+
+}
+
+header {
+    text-align: center;
+    padding: 0rem;
+    overflow: hidden;
+
+    border-bottom: 1px dashed black;
+    background-color: var(--cwhite);
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+}
+header h1 {
+    padding: 0;
+    margin: 0;
+    font-size: 3rem;
+}
+
+.pagewrapper {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    /* height: 100%; */
+    /* height: calc(100% - 3rem); */
+}
+
+.contentwrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a {
+    transition: 0.25s;
+    color: var(--cprimary);
+    text-decoration: none;
+}
+a:hover {
+    color: var(--cbright);
+}
+
+h2 {
+    color: var(--cprimary);
+}
+
+footer {
+    text-align: center;
+    padding: 0.5rem;
+    overflow: hidden;
+
+    border-top: 1px dashed black;
+    background-color: var(--cwhite);
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+}
+@media only screen and (max-width: 474px) {
+    footer {
+        font-size: 0.8rem;
+    }
+}
+
+.gameform {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+.gameform img {
+    width: 60%;
+    max-width: 15rem;
+}
+.gameform fieldset {
+    width: 80vw;
+    max-width: 50rem;
+    padding: 0;
+    margin: 0;
+    margin-top: 1rem;
+    border: 2px dashed var(--cprimary);
+    border-radius: 1rem;
+    overflow: hidden;
+}
+.gameform input {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 1.5rem;
+}
+.gameform error {
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.25rem;
+    background-color: var(--cwhitered);
+    text-align: center;
+}
+
+
+.pickwrapper h2 {
+    width: 100%;
+    text-align: center;
+    background-color: var(--cwhite);
+    border: 2px dashed var(--cprimary);
+    border-radius: 1rem;
+}
+.gamepicker {
+    display: flex;
+}
+
+.gamepicker a img {
+    display: block;
+    width: 80vw;
+    max-width: 15rem;
+    border: 2px dashed var(--cprimary);
+    border-radius: 1rem;
+    transition: 0.1s ease-in-out;
+}
+.gamepicker a img:hover {
+    transform:scale(1.1);
+}
+
+error {
+    color: var(--cred);
+}
