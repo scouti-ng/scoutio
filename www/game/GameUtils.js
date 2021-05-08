@@ -12,7 +12,7 @@ module.exports = {
         while (room == null) {
             let code = this.generateCode();
             if (!rooms.get(code)) {
-                room = {game, code};
+                room = {game, code, players: {}};
                 rooms.set(code, room);
             }
         }

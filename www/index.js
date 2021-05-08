@@ -27,6 +27,7 @@ module.exports = (router, rnio) => {
             type: 'client',
             game: roomInfo.game,
             room: roomInfo.code,
+            username: params.username,
             permissions: [`room.${roomInfo.code}.client`,  `game.${roomInfo.game}.client`]
         }));
         // Redirect to the actual game page.
