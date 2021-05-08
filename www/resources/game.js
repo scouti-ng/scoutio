@@ -1,15 +1,22 @@
 // Open socket connction for all use.
 let socket = null;
-let openHandler = () => {
-    console.log('Connection established');
-};
 let eventHandlers = new Map();
 function connect() {
     socket = new WebSocket(`${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.hostname}:${window.location.port}/`);
-    socket.onopen = openHandler;
+    socket.onopen = function() {
+        callEvent('onOpen', {});
+    };
     socket.onmessage = function(e) {
-        //TODO call eventhandlers.
-        console.log('Message: ' , e.data);
+        let data = JSON.parse(e.data);
+        // Always call onMessage:
+        callEvent('onMessage', data);
+        // Handle errors:
+        if (data.error) {
+            callEvent('onError', {code: data.code, error: data.error});
+        } else {
+            // Otherwise just call the event with the body.
+            callEvent(data.type, data.body);
+        }
     }
     socket.onclose = function(e) {
         console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
@@ -19,15 +26,20 @@ function connect() {
     };
 }
 
-
 //OPEN THE SOCKET!
 connect();
 
-function registerHandler(eventName, handler) {
+function registerHandler(event, handler) {
     let handlers = eventHandlers.get(eventName);
     if (!handlers) handlers = [];
     handlers.push(handler);
-    eventHandlers.set(eventName, handlers);
+    eventHandlers.set(event, handlers);
+}
+
+function callEvent(event, params) {
+    for (let handler of eventHandlers.get(event)) {
+        handler(params);
+    }
 }
 
 function getCookie(name) {

@@ -1,4 +1,4 @@
-const GameUtils = require('../api/GameUtils');
+const GameUtils = require('./game/GameUtils');
 const files = require('./pagemaker');
 /** @typedef {import("restnio").RouteBack} RouteBack */
 
@@ -14,14 +14,24 @@ module.exports = (router, rnio) => {
     });
 
     // Joining
-    router.get('/join', (params, client) => {
+    router.get('/join', async (params, client) => {
         // Sanitise input or redirect back:
         if (!params.username || !params.code) client.redirect('/?error=You must enter both name and code.');
-        if (!/^\w{3,10}$/.test(params.username)) client.redirect('/?error=Invalid name! Should be 3-10 letters or numbers.');
+        if (!/^\w{3,10}$/.test(params.username)) client.redirect(`/?u=${params.username}&c=${params.code}&error=Invalid name! Should be 3-10 letters or numbers.`);
         params.code = params.code.toUpperCase();
-        if (!/^[A-Z0-9-]{6}$/.test(params.code)) client.redirect('/?error=Invalid code! Should be 6 letters or numbers or \'-\'.');
-
-        return 'hi';
+        if (!/^[A-Z0-9-]{6}$/.test(params.code)) client.redirect(`/?u=${params.username}&c=${params.code}&error=Invalid code! Should be 6 letters or numbers or '-'.`);
+        let roomInfo = GameUtils.getRoom(params.code);
+        if (!roomInfo) client.redirect(`/?u=${params.username}&c=${params.code}&error=A room with that code does not exist.`);
+        console.dir(roomInfo);
+        // Generate client token with name and code.
+        client.cookie('token', await rnio.token.sign({
+            type: 'client',
+            game: roomInfo.game,
+            room: roomInfo.code,
+            permissions: [`room.${roomInfo.code}.client`,  `game.${roomInfo.game}.client`]
+        }));
+        // Redirect to the actual game page.
+        client.redirect(`/game/${roomInfo.game}/client`);
     });
 
     // Hosting
@@ -34,7 +44,7 @@ module.exports = (router, rnio) => {
                 case '1vs100':
                     let roomInfo = GameUtils.newRoom(params.game);
                     client.cookie('token', await rnio.token.sign({
-                        type: 'host',
+                        type: 'server',
                         game: roomInfo.game,
                         room: roomInfo.code,
                         permissions: [`room.${roomInfo.code}.server`,  `game.${roomInfo.game}.server`]

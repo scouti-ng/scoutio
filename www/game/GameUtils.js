@@ -13,7 +13,7 @@ module.exports = {
             let code = this.generateCode();
             if (!rooms.get(code)) {
                 room = {game, code};
-                rooms.set(code, game);
+                rooms.set(code, room);
             }
         }
         return room;
