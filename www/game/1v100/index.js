@@ -1,4 +1,5 @@
 const files = require('../../pagemaker');
+const GameUtils = require('../GameUtils');
 /** @typedef {import("restnio").RouteBack} RouteBack */
 
 /** @type RouteBack */
@@ -24,6 +25,30 @@ module.exports = (router, rnio) => {
             params.scripts = ['/game.js'];
             // return client.token;
             return files.makePage(files.game.v1v100.server, client, params);
+        }
+    });
+
+
+    // GAME STUFFS
+
+
+    router.ws('/register', {
+        params: {
+            type: rnio.$p.enum('client', 'server'),
+            code: {
+                required: true,
+                checks: [(value) => GameUtils.isRoom(value)]
+            },
+            username: {
+                required: false,
+                checks: [rnio.$p.checks.str.regex(/^[A-Z0-9-]{6}$/)]
+            }
+        },
+        func: (params, client) => {
+            // First check token and extract information from this.
+            // Subscribe to all messages related to this room.
+            client.subscribe(params.code);
+            
         }
     });
 };
