@@ -22,7 +22,6 @@ module.exports = (router, rnio) => {
         if (!/^[A-Z0-9-]{6}$/.test(params.code)) client.redirect(`/?u=${params.username}&c=${params.code}&error=Invalid code! Should be 6 letters or numbers or '-'.`);
         let roomInfo = GameUtils.getRoom(params.code);
         if (!roomInfo) client.redirect(`/?u=${params.username}&c=${params.code}&error=A room with that code does not exist.`);
-        console.dir(roomInfo);
         // Generate client token with name and code.
         client.cookie('token', await rnio.token.sign({
             type: 'client',
