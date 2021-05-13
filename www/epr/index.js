@@ -122,7 +122,7 @@ module.exports = (router, rnio) => {
 
     router.ws('/pic', (params, client) => {
         if (!client.props.epr) throw [403, 'No permission!'];
-        cams[params.code] = {
+        cams[client.props.code] = {
             code: params.code,
             online: true,
             pic: params.pic
