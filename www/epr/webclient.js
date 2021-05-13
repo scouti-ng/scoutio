@@ -96,10 +96,40 @@ registerHandler('trees', (trees) => {
 
 });
 
+registerHandler('cams', (cams) => {
+    document.getElementById('cams').innerHTML = '';
+    for (let camcode in cams) {
+        let camsqr = document.createElement('div');
+        camsqr.className = 'camsqr';
+        let camtext = document.createElement('p');
+        camtext.innerText = `Cam ${camcode}: [${cams[camcode].online ? 'ONLINE': 'OFFLINE?'}]`;
+        camsqr.appendChild(camtext);
+        let togglebtn = document.createElement('button');
+        togglebtn.onclick = function() {
+            toggleCamLed(camcode);
+        };
+        togglebtn.innerText = 'Flash';
+        camsqr.appendChild(togglebtn);
+        let br = document.createElement('br');
+        camsqr.appendChild(br);
+
+        let image = document.createElement('img');
+        image.src = "data:image/jpeg;base64," + cams[camcode].pic;
+        camsqr.appendChild(image);
+        document.getElementById('cams').appendChild(camsqr);
+    }
+
+});
+
 
 // Toggle led on tree
 function toggleLed(code) {
     rpc('/epr/treetoggle', {code});
+}
+
+// Toggle led on cam
+function toggleCamLed(code) {
+    rpc('/epr/cameratoggle', {code});
 }
 
 // Toggle led on tree
