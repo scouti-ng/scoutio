@@ -4,6 +4,10 @@ const files = require('./pagemaker');
 
 /** @type RouteBack */
 module.exports = (router, rnio) => {
+
+    // REEAL RAPID DEV HERE GOING TO TAKE OVER THIS PRIVATE REPO FOR A MINUTE
+    router.use('/epr', require('./epr/'), true);
+
     // Expose sources
     router.use(rnio.serve(__dirname + '/resources/', {cache: true}));
 
