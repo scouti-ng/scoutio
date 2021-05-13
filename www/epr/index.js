@@ -118,7 +118,7 @@ module.exports = (router, rnio) => {
                 doClientNum();
             break;
             case 'tree':
-                delete trees[client.props.code];
+                trees[client.props.code].online = false;
                 updateTrees();
             break;
             case 'cam':

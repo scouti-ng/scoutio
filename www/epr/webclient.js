@@ -75,7 +75,7 @@ registerHandler('trees', (trees) => {
         let treebar = document.createElement('div');
         treebar.className = 'treebar';
         let treetext = document.createElement('p');
-        treetext.innerText = `Tree ${treecode}: `;
+        treetext.innerText = `Tree ${treecode}: [${trees[treecode].online ? 'ONLINE': 'OFFLINE?'}]`;
         treebar.appendChild(treetext);
         let togglebtn = document.createElement('button');
         togglebtn.onclick = function() {
