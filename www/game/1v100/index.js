@@ -53,15 +53,53 @@ module.exports = (router, rnio) => {
             client.subscribe(client.token.room);
             
             // If a client registers, add it to the 1vs100 players and broadcast the joining.
+            let roomInfo = GameUtils.getRoom(client.token.room);
             if (client.token.type == 'client') {
-                let roomInfo = GameUtils.getRoom(client.token.room);
-                // Insert playerdata:
-                roomInfo.players[client.token.username] = {
-                    username: client.token.username
-                };
+                client.subscribe(`${client.token.room}-client`);
+                // Insert playerdata if not already there.
+                let playerInfo = roomInfo.players[client.token.username];
+                if (!playerInfo) {
+                    playerInfo = {};
+                }
+                playerInfo.username = client.token.username;
+                playerInfo.online = true;
+                roomInfo.players[client.token.username] = playerInfo;
                 broadcastPlayers(client.token.room);
+            } else if (client.token.type == 'server') {
+                roomInfo.serverOnline = true;
+                rnio.subs(`${client.token.room}-client`).obj({
+                    type: 'hoststatus',
+                    body: 'online'
+                });
             }
             return GameUtils.getRoom(client.token.room);
+        }
+    });
+
+    router.on('wsClose', (params, client) => {
+        if (!client.token.room || client.token.game != '1vs100') return;
+        let roomInfo = GameUtils.getRoom(client.token.room);
+        if (client.token.type == 'client') {
+            let playerInfo = roomInfo.players[client.token.username];
+            if (!playerInfo) return;
+            playerInfo.online = false;
+            broadcastPlayers(client.token.room);
+        } else if (client.token.type == 'server') {
+            roomInfo.serverOnline = false;
+            // Broadcast 1 minute warning?
+            rnio.subs(`${client.token.room}-client`).obj({
+                type: 'hoststatus',
+                body: 'offline'
+            });
+            setTimeout(() => {
+                if (GameUtils.getRoom(client.token.room).serverOnline == false) {
+                    rnio.subs(client.token.room).obj({
+                        type: 'redirect',
+                        body: '/?error=Host disconnected!'
+                    });
+                    GameUtils.deleteRoom(client.token.room);
+                }
+            }, 60000);
         }
     });
 

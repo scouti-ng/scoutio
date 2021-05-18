@@ -23,5 +23,8 @@ module.exports = {
     },
     isRoom(code) {
         return !!rooms.get(code);
+    },
+    deleteRoom(code) {
+        rooms.delete(code);
     }
 }

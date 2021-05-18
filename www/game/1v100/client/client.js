@@ -5,3 +5,8 @@ registerHandler('onOpen', () => {
 
 //debug
 registerHandler('onMessage', (data) => console.dir(data));
+
+registerHandler('hoststatus', (data) => document.getElementById('hostoffline').style.display = (data == 'online' ? 'none': 'block'));
+
+// Redirect to other page.
+registerHandler('redirect', (data) => window.location.href = data);

@@ -1,0 +1,17 @@
+#bottemstick {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: fixed;
+    bottom: 1rem;
+    width: 100vw;
+}
+
+#hostoffline {
+    display: none;
+    color: var(--cred);
+    background-color: var(--cwhitered);
+    padding: 1rem;
+    border: 2px dashed var(--cprimary);
+    border-radius: 1rem;
+}
