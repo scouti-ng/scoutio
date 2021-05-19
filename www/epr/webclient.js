@@ -74,6 +74,7 @@ registerHandler('trees', (trees) => {
     for (let treecode in trees) {
         let treebar = document.createElement('div');
         treebar.className = 'treebar';
+        treebar.id = `tree-${treecode}`;
         let treetext = document.createElement('p');
         treetext.innerText = `Tree ${treecode}: [${trees[treecode].online ? 'ONLINE': 'OFFLINE?'}]`;
         treebar.appendChild(treetext);
@@ -104,12 +105,28 @@ registerHandler('cams', (cams) => {
         let camtext = document.createElement('p');
         camtext.innerText = `Cam ${camcode}: [${cams[camcode].online ? 'ONLINE': 'OFFLINE?'}]`;
         camsqr.appendChild(camtext);
+
         let togglebtn = document.createElement('button');
         togglebtn.onclick = function() {
             toggleCamLed(camcode);
         };
         togglebtn.innerText = 'Flash';
         camsqr.appendChild(togglebtn);
+
+        let onbtn = document.createElement('button');
+        onbtn.onclick = function() {
+            camOn(camcode);
+        };
+        togglebtn.innerText = 'Camera On';
+        camsqr.appendChild(onbtn);
+
+        let onbtn = document.createElement('button');
+        offbtn.onclick = function() {
+            camOff(camcode);
+        };
+        togglebtn.innerText = 'Camera Off';
+        camsqr.appendChild(offbtn);
+
         let br = document.createElement('br');
         camsqr.appendChild(br);
 
@@ -119,6 +136,10 @@ registerHandler('cams', (cams) => {
         document.getElementById('cams').appendChild(camsqr);
     }
 
+});
+
+registerHandler('togglestate', (obj) => {
+    document.getElementById(`tree-${obj.code}`).style.backgroundColor = obj.status ? 'lightblue' : 'white';
 });
 
 
@@ -135,6 +156,14 @@ function toggleCamLed(code) {
 // Toggle led on tree
 function shockTree(code) {
     rpc('/epr/treeshock', {code});
+}
+
+function camOn(code) {
+    rpc('/epr/camon', {code});
+}
+
+function camOff(code) {
+    rpc('/epr/camoff', {code});
 }
 
 
