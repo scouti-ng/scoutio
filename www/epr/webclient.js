@@ -120,7 +120,7 @@ registerHandler('cams', (cams) => {
         togglebtn.innerText = 'Camera On';
         camsqr.appendChild(onbtn);
 
-        let onbtn = document.createElement('button');
+        let offbtn = document.createElement('button');
         offbtn.onclick = function() {
             camOff(camcode);
         };
