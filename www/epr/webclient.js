@@ -159,11 +159,11 @@ function shockTree(code) {
 }
 
 function camOn(code) {
-    rpc('/epr/camon', {code});
+    rpc('/epr/cameraon', {code});
 }
 
 function camOff(code) {
-    rpc('/epr/camoff', {code});
+    rpc('/epr/cameraoff', {code});
 }
 
 
