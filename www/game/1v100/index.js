@@ -86,11 +86,12 @@ module.exports = (router, rnio) => {
             broadcastPlayers(client.token.room);
         } else if (client.token.type == 'server') {
             roomInfo.serverOnline = false;
-            // Broadcast 1 minute warning?
+            // Broadcast 1 minute warning
             rnio.subs(`${client.token.room}-client`).obj({
                 type: 'hoststatus',
                 body: 'offline'
             });
+            // After 1 minute if the host hasn't returned; break up the room.
             setTimeout(() => {
                 if (GameUtils.getRoom(client.token.room).serverOnline == false) {
                     rnio.subs(client.token.room).obj({

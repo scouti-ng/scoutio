@@ -10,6 +10,10 @@ module.exports = (router, rnio) => {
 
     // Expose sources
     router.use(rnio.serve(__dirname + '/resources/', {cache: true}));
+    // Expose fontawesome:
+    router.use('/fontawesome.min.css', rnio.serve('./node_modules/@fortawesome/fontawesome-free/css/all.min.css', {cache: true, noFilename: true}))
+    router.use('/webfonts', rnio.serve('./node_modules/@fortawesome/fontawesome-free/webfonts/', {cache: true}))
+
 
     // Index
     router.get('/', (params, client) => {

@@ -58,6 +58,7 @@ module.exports = {
                 <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
                 <link rel="icon" type="image/png" href="/faviconlarge.png" sizes="192x192">
                 <link rel="stylesheet" href="/style.css">
+                <link rel="stylesheet" href="/fontawesome.min.css">
                 ${xtraStyles}
                 <meta property="og:title" content="Scouti.ng">
                 <meta property="og:description" content="Fun games to use during both local and remote scouting activities!">
