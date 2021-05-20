@@ -1,3 +1,5 @@
+let dead = false;
+
 // On connect subscribe to the room:
 registerHandler('onOpen', () => {
     rpc('/game/1vs100/register', {token: getCookie('token')});
@@ -10,3 +12,38 @@ registerHandler('hoststatus', (data) => document.getElementById('hostoffline').s
 
 // Redirect to other page.
 registerHandler('redirect', (data) => window.location.href = data);
+
+registerHandler('gameInfo', (body) => {
+    if (body.state == 'lobby') {
+        dead = false;
+        document.getElementById('status').innerText = 'In lobby waiting for host...';
+        document.getElementById('aBtn').disabled = true;
+        document.getElementById('bBtn').disabled = true;
+        document.getElementById('cBtn').disabled = true;
+    }
+    if (body.state == 'game') {
+        document.getElementById('status').innerText = 'Waiting for question...';
+        document.getElementById('aBtn').disabled = true;
+        document.getElementById('bBtn').disabled = true;
+        document.getElementById('cBtn').disabled = true;
+    }
+    if (body.state == 'question' && dead == false) {
+        document.getElementById('status').innerText = 'Enter your answer now!';
+        document.getElementById('aBtn').disabled = false;
+        document.getElementById('bBtn').disabled = false;
+        document.getElementById('cBtn').disabled = false;
+
+    }
+});
+
+registerHandler('dead', () => {
+    dead = true;
+    document.getElementById('status').innerText = 'Game over! Sorry :(';
+    document.getElementById('aBtn').disabled = true;
+    document.getElementById('bBtn').disabled = true;
+    document.getElementById('cBtn').disabled = true;
+});
+
+function answer(option) {
+    rpc('/game/1vs100/answer', {option});
+}

@@ -1,19 +1,33 @@
 <div class="wrapup server">
-    <div id="head">
-        <img class="gamelogo" src="/1vs100.png">
-        <h2 id="roomcode">CODE: $room$</h2>
+    <div id="servertop">
+        <div id="head">
+            <img class="gamelogo" src="/1vs100.png">
+            <h2 id="roomcode">CODE: $room$</h2>
+        </div>
+        <div id="buttons">
+            <div id="prize">€0,-</div>
+            <button id="nextBtn" class="btn" disabled onclick="next()">Next</button>
+            <div id="abc">
+                <button id="aBtn" class="btn abtn" disabled onclick="answer('A')">A</button>
+                <button id="bBtn" class="btn bbtn" disabled onclick="answer('B')">B</button>
+                <button id="cBtn" class="btn cbtn" disabled onclick="answer('C')">C</button>
+            </div>
+            <div id="status">Select 'the one' to begin.</div>
+            <button id="resetBtn" class="btn" onclick="reset()">Reset</button>
+        </div>
     </div>
+
     
     <div id="waiting-area">
         <div id="waitingforplayers">
             Waiting for players...<br/><br/>
             <div class="loader"></div>
         </div>
-        <div id="waitingplayers">
-            <div class="waitingplayer">
+        <div id="players">
+            <!-- <div class="waitingplayer">
                 <i class="fas fa-user"></i>
                 <div class="waitingname">7kasper</div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
