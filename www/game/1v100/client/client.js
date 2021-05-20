@@ -42,8 +42,28 @@ registerHandler('dead', () => {
     document.getElementById('aBtn').disabled = true;
     document.getElementById('bBtn').disabled = true;
     document.getElementById('cBtn').disabled = true;
+    document.getElementById('aBtn').classList.remove('selected');
+    document.getElementById('bBtn').classList.remove('selected');
+    document.getElementById('cBtn').classList.remove('selected');
 });
 
 function answer(option) {
     rpc('/game/1vs100/answer', {option});
+    switch(option) {
+        case "A": 
+            document.getElementById('aBtn').classList.add('selected');
+            document.getElementById('bBtn').classList.remove('selected');
+            document.getElementById('cBtn').classList.remove('selected');
+        break;
+        case "B":
+            document.getElementById('bBtn').classList.add('selected');
+            document.getElementById('aBtn').classList.remove('selected');
+            document.getElementById('cBtn').classList.remove('selected');
+        break;
+        case "C":
+            document.getElementById('cBtn').classList.add('selected');
+            document.getElementById('bBtn').classList.remove('selected');
+            document.getElementById('aBtn').classList.remove('selected');
+        break;
+    }
 }
