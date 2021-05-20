@@ -178,6 +178,8 @@ module.exports = (router, rnio) => {
                 playerInfo.dead = false;
                 playerInfo.lastAnswer = 'X';
             }
+            playerInfo.theone = false;
+            playerInfo.themany = true;
         });
         broadcastGameInfo(client.token.room);
         broadcastPlayers(client.token.room);
