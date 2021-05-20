@@ -180,6 +180,7 @@ module.exports = (router, rnio) => {
             }
         });
         broadcastGameInfo(client.token.room);
+        broadcastPlayers(client.token.room);
     });
 
     router.ws('/next', (params, client) => {
