@@ -102,6 +102,7 @@ registerHandler('cams', (cams) => {
     for (let camcode in cams) {
         let camsqr = document.createElement('div');
         camsqr.className = 'camsqr';
+        camsqr.id = `cam-${camcode}`;
         let camtext = document.createElement('p');
         camtext.innerText = `Cam ${camcode}: [${cams[camcode].online ? 'ONLINE': 'OFFLINE?'}]`;
         camsqr.appendChild(camtext);
@@ -140,6 +141,10 @@ registerHandler('cams', (cams) => {
 
 registerHandler('togglestate', (obj) => {
     document.getElementById(`tree-${obj.code}`).style.backgroundColor = obj.status ? 'lightblue' : 'white';
+});
+
+registerHandler('toggledflash', (obj) => {
+    document.getElementById(`cam-${obj.code}`).style.backgroundColor = obj.status ? 'lightblue' : 'white';
 });
 
 

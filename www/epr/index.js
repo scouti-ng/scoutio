@@ -130,11 +130,18 @@ module.exports = (router, rnio) => {
         updateCams();// just broadcast everything lololol
     });
 
-    // Report back from cam.
+    // Report back from tree.
     router.ws('/togglestate', (params, client) => {
         if (!client.props.epr) throw [403, 'No permission!'];
         trees[client.props.code].online = true;
         rnio.subs(`eprclient`).obj({type: 'togglestate', body: {code: client.props.code, status: params.status}});
+    });
+
+    // Report back from cam
+    router.ws('/toggledflash', (params, client) => {
+        if (!client.props.epr) throw [403, 'No permission!'];
+        cams[client.props.code].online = true;
+        rnio.subs(`eprclient`).obj({type: 'toggledflash', body: {code: client.props.code, status: params.status}});
     });
 
     router.on('wsClose', (params, client) => {
