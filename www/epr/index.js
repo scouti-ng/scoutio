@@ -102,6 +102,10 @@ module.exports = (router, rnio) => {
         client.subscribe('epr');
         client.subscribe(`tree-${params.code}`);
         updateTrees();
+        return {
+            type: 'established',
+            body: true
+        };
     });
 
     router.ws('/icam', (params, client) => {
@@ -118,6 +122,10 @@ module.exports = (router, rnio) => {
         client.subscribe('epr');
         client.subscribe(`cam-${params.code}`);
         updateCams();
+        return {
+            type: 'established',
+            body: true
+        };
     });
 
     router.ws('/pic', (params, client) => {
