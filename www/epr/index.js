@@ -46,6 +46,7 @@ module.exports = (router, rnio) => {
                         .treebar {
                             display: flex;
                             flex-direction: row;
+                            width: 2400px;
                         }
                         #cams {
                             display: flex;
@@ -54,11 +55,14 @@ module.exports = (router, rnio) => {
                         .camsqr {
                             border: 1px solid black;
                         }
+                        .shockbtn {
+                            flex-grow: 1;
+                        }
                     </style>
                 </head>
                 <body>
                     <h1>EindeAdminPanel</h1>
-                    <h2>Proto 0.0.1 - khm</h2>
+                    <h2>Proto 0.0.2 - khm</h2>
                     Client Connection: <em><span id="constatus">Offline</span></em> Clients Online: <em><span id="conline">0</span></em>
                     <div id="cams"></div>
                     <div id="trees"></div>
@@ -197,6 +201,8 @@ module.exports = (router, rnio) => {
 
     router.ws('/cameraoff', (params, client) => {
         if (!client.props.epr) throw [403, 'No permission!'];
+        cams[params.code].pic = catpil;
+        updateCams();
         rnio.subs(`cam-${params.code}`).obj({type: 'camoff', body: true});
     });
 };

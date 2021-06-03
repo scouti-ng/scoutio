@@ -89,7 +89,8 @@ registerHandler('trees', (trees) => {
         shockbtn.onclick = function() {
             shockTree(treecode);
         };
-        shockbtn.innerText = 'SHOCK';
+        shockbtn.innerText = `SHOCK ${treecode}`;
+        shockbtn.classList.add('shockbtn');
         treebar.appendChild(shockbtn);
 
         document.getElementById('trees').appendChild(treebar);
