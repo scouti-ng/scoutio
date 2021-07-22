@@ -86,6 +86,14 @@ registerHandler('trees', (trees) => {
         togglebtn.innerText = 'Toggle';
         treebar.appendChild(togglebtn);
 
+        let touchrbtn = document.createElement('button');
+        touchrbtn.onclick = function() {
+            touchResetTree(treecode);
+        };
+        touchrbtn.innerText = `Touch Reset`;
+        touchrbtn.classList.add('touchrbtn');
+        treebar.appendChild(touchrbtn);
+
         let shockbtn = document.createElement('button');
         shockbtn.onclick = function() {
             shockTree(treecode);
@@ -164,6 +172,10 @@ function toggleCamLed(code) {
 // Toggle led on tree
 function shockTree(code) {
     rpc('/epr/treeshock', {code});
+}
+
+function touchResetTree(code) {
+    rpc('/epr/treetouchreset', {code});
 }
 
 function camOn(code) {

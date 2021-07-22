@@ -209,6 +209,11 @@ module.exports = (router, rnio) => {
         rnio.subs(`cam-${params.code}`).obj({type: 'toggle', body: true});
     });
 
+    router.ws('/treetouchreset', (params, client) => {
+        if (!client.props.epr) throw [403, 'No permission!'];
+        rnio.subs(`tree-${params.code}`).obj({type: 'touchreset', body: true});
+    });
+
     // toggle camera on/off
     router.ws('/cameraon', (params, client) => {
         if (!client.props.epr) throw [403, 'No permission!'];
