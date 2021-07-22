@@ -215,7 +215,7 @@ const el = document.getElementById('chart');
 const dataFast = [];
 const dataSlow = [];
 const chart = new TimeChart(el, {
-    baseTime: Date.now() - performance.now(),
+    baseTime: 0,
     series: [
         {
             name: 'Fast',
@@ -245,13 +245,13 @@ document.getElementById('follow-btn').addEventListener('click', function () {
     chart.options.realTime = true;
 });
 
-function upGraph(value) {
-    const time = performance.now();
-    dataFast.push({x: time, y: value});
+function upGraph(obj) {
+    dataFast.push({x: obj.time, y: obj.level});
+    dataSlow.push({x: obj.time, y: obj.large});
     chart.update();
 }
 
-registerHandler('tupdate', (obj) => upGraph(obj.level));
+registerHandler('tupdate', (obj) => upGraph(obj));
 
 //OPEN THE SOCKET!
 connect();

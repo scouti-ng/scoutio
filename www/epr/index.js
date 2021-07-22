@@ -225,9 +225,7 @@ module.exports = (router, rnio) => {
     router.ws('/touch', (params, client) => {
         rnio.subs('eprclient').obj({
             type: 'tupdate',
-            body: {
-                level: params.level
-            }
+            body: params
         });
     });
 };
