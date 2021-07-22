@@ -194,7 +194,10 @@ var tdata = {
   };;
 var myChart = new Chart(ctx, {
     type: 'line',
-    data: tdata
+    data: tdata,
+    options: {
+        animation: false
+    }
 });
 
 function upGraph(value) {
