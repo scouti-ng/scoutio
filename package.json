@@ -26,6 +26,7 @@
   "homepage": "https://github.com/scouti-ng/scoutio#readme",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
+    "chart.js": "^3.4.1",
     "restnio": "^3.7.13",
     "xss": "^1.0.8"
   }

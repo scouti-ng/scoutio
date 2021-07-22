@@ -35,12 +35,16 @@ module.exports = (router, rnio) => {
     // Serve client file:
     router.use('/webclient.js', rnio.serve(__dirname + '/webclient.js', { cache: true, noFilename: true}));
 
+    // Server chart.js
+    router.use('/chart.js', rnio.serve('./node_modules/chart.js/dist/chart.js', {cache: true, noFilename: true}));
+
     router.all('/', (params, client) => {
         if (params.pwd === 'KaterCiller') {
             return `<html>
                 <head>
                     <title>EindeAdminPanel</title>
                     <script>const pwd = "${params.pwd}";</script>
+                    <script src="/epr/chart.js" defer></script>
                     <script src="/epr/webclient.js" defer></script>
                     <style>
                         .treebar {
@@ -66,6 +70,8 @@ module.exports = (router, rnio) => {
                     Client Connection: <em><span id="constatus">Offline</span></em> Clients Online: <em><span id="conline">0</span></em>
                     <div id="cams"></div>
                     <div id="trees"></div>
+                    <!-- <button onClick="meep()">Meep</button> -->
+                    <canvas id="myChart"></canvas>
                 </body>
             
             </html>`;
@@ -146,7 +152,7 @@ module.exports = (router, rnio) => {
     router.ws('/togglestate', (params, client) => {
         if (!client.props.epr) throw [403, 'No permission!'];
         trees[client.props.code].online = true;
-        rnio.subs(`eprclient`).obj({type: 'togglestate', body: {code: client.props.code, status: params.status}});
+        rnio.subs(`eprclient`).obj({type: 'togglestate', body: {code: client.props.code, status: params.status, batvolt: params.batvolt}});
     });
 
     // Report back from cam
@@ -204,5 +210,14 @@ module.exports = (router, rnio) => {
         cams[params.code].pic = catpil;
         updateCams();
         rnio.subs(`cam-${params.code}`).obj({type: 'camoff', body: true});
+    });
+
+    router.ws('/touch', (params, client) => {
+        rnio.subs('eprclient').obj({
+            type: 'tupdate',
+            body: {
+                level: params.level
+            }
+        });
     });
 };

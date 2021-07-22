@@ -76,6 +76,7 @@ registerHandler('trees', (trees) => {
         treebar.className = 'treebar';
         treebar.id = `tree-${treecode}`;
         let treetext = document.createElement('p');
+        treetext.id = `treetxt-${treecode}`;
         treetext.innerText = `Tree ${treecode}: [${trees[treecode].online ? 'ONLINE': 'OFFLINE?'}]`;
         treebar.appendChild(treetext);
         let togglebtn = document.createElement('button');
@@ -142,6 +143,7 @@ registerHandler('cams', (cams) => {
 
 registerHandler('togglestate', (obj) => {
     document.getElementById(`tree-${obj.code}`).style.backgroundColor = obj.status ? 'lightblue' : 'white';
+    document.getElementById(`treetxt-${obj.code}`).innerText = `Tree ${obj.code}: [Online][${obj.batvolt}]`;
 });
 
 registerHandler('toggledflash', (obj) => {
@@ -172,6 +174,40 @@ function camOff(code) {
     rpc('/epr/cameraoff', {code});
 }
 
+function meep() {
+    rpc('/epr/touch', {level: Math.random() * 100});
+}
+
+// Touch graph :P
+//TODO Tidy up
+var ctx = document.getElementById('myChart');
+var t = 0;
+var tdata = {
+    labels: [],
+    datasets: [{
+      label: 'Touchy',
+      data: [],
+      fill: false,
+      borderColor: 'rgb(75, 192, 192)',
+      tension: 0.1
+    }]
+  };;
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: tdata
+});
+
+function upGraph(value) {
+    tdata.datasets[0].data.push(value);
+    tdata.labels.push(t++);
+    myChart.update();
+    if (t > 100) {
+        tdata.datasets[0].data.shift();
+        tdata.labels.shift();
+    }
+}
+
+registerHandler('tupdate', (obj) => upGraph(obj.level));
 
 //OPEN THE SOCKET!
 connect();
