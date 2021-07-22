@@ -180,34 +180,75 @@ function meep() {
 
 // Touch graph :P
 //TODO Tidy up
-var ctx = document.getElementById('myChart');
-var t = 0;
-var tdata = {
-    labels: [],
-    datasets: [{
-      label: 'Touchy',
-      data: [],
-      fill: false,
-      borderColor: 'rgb(75, 192, 192)',
-      tension: 0.1
-    }]
-  };;
-var myChart = new Chart(ctx, {
-    type: 'line',
-    data: tdata,
-    options: {
-        animation: false
-    }
+// var ctx = document.getElementById('myChart');
+// var t = 0;
+// var tdata = {
+//     labels: [],
+//     datasets: [{
+//       label: 'Touchy',
+//       data: [],
+//       fill: false,
+//       borderColor: 'rgb(75, 192, 192)',
+//       tension: 0.1
+//     }]
+//   };;
+// var myChart = new Chart(ctx, {
+//     type: 'line',
+//     data: tdata,
+//     options: {
+//         animation: false
+//     }
+// });
+
+// function upGraph(value) {
+//     tdata.datasets[0].data.push(value);
+//     tdata.labels.push(t++);
+//     myChart.update();
+//     if (t > 100) {
+//         tdata.datasets[0].data.shift();
+//         tdata.labels.shift();
+//     }
+// }
+
+// Touch graph new
+const el = document.getElementById('chart');
+const dataFast = [];
+const dataSlow = [];
+const chart = new TimeChart(el, {
+    baseTime: Date.now() - performance.now(),
+    series: [
+        {
+            name: 'Fast',
+            data: dataFast,
+        },
+        {
+            name: 'Slow',
+            data: dataSlow,
+            lineWidth: 2,
+            color: 'red',
+        },
+    ],
+    xRange: { min: 0, max: 20 * 1000 },
+    realTime: true,
+    zoom: {
+        x: {
+            autoRange: true,
+            minDomainExtent: 50,
+        },
+        y: {
+            autoRange: true,
+            minDomainExtent: 1,
+        }
+    },
+});
+document.getElementById('follow-btn').addEventListener('click', function () {
+    chart.options.realTime = true;
 });
 
 function upGraph(value) {
-    tdata.datasets[0].data.push(value);
-    tdata.labels.push(t++);
-    myChart.update();
-    if (t > 100) {
-        tdata.datasets[0].data.shift();
-        tdata.labels.shift();
-    }
+    const time = performance.now();
+    dataFast.push({x: time, y: value});
+    chart.update();
 }
 
 registerHandler('tupdate', (obj) => upGraph(obj.level));

@@ -44,7 +44,16 @@ module.exports = (router, rnio) => {
                 <head>
                     <title>EindeAdminPanel</title>
                     <script>const pwd = "${params.pwd}";</script>
-                    <script src="/epr/chart.js" defer></script>
+                    <script src="https://d3js.org/d3-array.v2.min.js"></script>
+                    <script src="https://d3js.org/d3-color.v2.min.js"></script>
+                    <script src="https://d3js.org/d3-format.v2.min.js"></script>
+                    <script src="https://d3js.org/d3-interpolate.v2.min.js"></script>
+                    <script src="https://d3js.org/d3-time.v2.min.js"></script>
+                    <script src="https://d3js.org/d3-time-format.v3.min.js"></script>
+                    <script src="https://d3js.org/d3-scale.v3.min.js"></script>
+                    <script src="https://d3js.org/d3-selection.v2.min.js"></script>
+                    <script src="https://d3js.org/d3-axis.v2.min.js"></script>
+                    <script src="https://huww98.github.io/TimeChart/dist/timechart.min.js"></script>
                     <script src="/epr/webclient.js" defer></script>
                     <style>
                         .treebar {
@@ -71,7 +80,8 @@ module.exports = (router, rnio) => {
                     <div id="cams"></div>
                     <div id="trees"></div>
                     <!-- <button onClick="meep()">Meep</button> -->
-                    <canvas id="myChart"></canvas>
+                    <div id="chart" style="width: 100%; height: 500px;"></div>
+                    <button id="follow-btn">Follow Data</button>
                 </body>
             
             </html>`;
