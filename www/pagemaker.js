@@ -19,6 +19,10 @@ module.exports = {
         v1v100: {
             client: file(__dirname + '/game/1v100/client/client.html'),
             server: file(__dirname + '/game/1v100/server/server.html')
+        },
+        counterstrijk: {
+            client: file(__dirname + '/game/counterstrijk/client/client.html'),
+            server: file(__dirname + '/game/counterstrijk/server/server.html')
         }
     },
     /**

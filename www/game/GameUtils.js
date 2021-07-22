@@ -1,4 +1,4 @@
-const codeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-"; //KHICAW
+const codeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; //KHICAW
 const rooms = new Map();
 
 module.exports = {
