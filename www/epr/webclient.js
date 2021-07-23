@@ -286,21 +286,13 @@ function labelHack() {
                     label.appendChild(valMeter);
                     label.style.justifyContent = 'space-between';
                 }
-                valMeter.innerHTML = `=${value.y.toFixed(2)}`;
+                valMeter.innerHTML = ` = ${value.y.toFixed(2)}`;
             }
         });
         document.querySelector("#chart").shadowRoot.querySelector("chart-legend").shadowRoot.querySelector("div:nth-child(2) > label")
     });
 }
 chart.nearestPoint.updated.on(labelHack);
-
-bigpage.addEventListener('dblclick', function (e) {
-    if (lastX) {
-        let name = prompt('Enter event name');
-        events.push({x: lastX, name: name});
-        chart.update();
-    }
-});
 
 document.getElementById('follow-btn').addEventListener('click', function () {
     chart.options.realTime = true;
@@ -332,6 +324,14 @@ function highlight(e) {
 function unhighlight(e) {
     bigpage.classList.remove('highlight')
 }
+//prompt event on dubble click.
+bigpage.addEventListener('dblclick', function (e) {
+    if (lastX) {
+        let name = prompt('Enter event name');
+        events.push({x: lastX, name: name});
+        chart.update();
+    }
+});
 ;['dragenter', 'dragover'].forEach(eventName => {
     bigpage.addEventListener(eventName, highlight, false)
 })
