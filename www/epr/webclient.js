@@ -271,7 +271,7 @@ const chart = new TimeChart(el, {
 let lastX;
 // Ultimate beun. See the grpah text thingies.
 function labelHack() {
-    chart.nearestPoint.points.forEach((value, key) => {
+    chart.nearestPoint.qpoints.forEach((value, key) => {
         lastX = value.x;
         document.querySelector("#chart").shadowRoot.querySelector("chart-legend").shadowRoot.querySelectorAll('.visible').forEach(label => {
             if (label.querySelector('label').innerText == key.name) {
@@ -282,8 +282,7 @@ function labelHack() {
                     label.appendChild(valMeter);
                     label.style.justifyContent = 'space-between';
                 }
-                console.log(`${key.name}-${value.y}`);
-                valMeter.innerHTML = value.y.toFixed(2);
+                valMeter.innerHTML = `=${value.y.toFixed(2)}`;
             }
         });
         document.querySelector("#chart").shadowRoot.querySelector("chart-legend").shadowRoot.querySelector("div:nth-child(2) > label")
