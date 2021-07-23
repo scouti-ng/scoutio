@@ -267,6 +267,29 @@ const chart = new TimeChart(el, {
         }
     },
 });
+
+let lastX;
+// Ultimate beun. See the grpah text thingies.
+function labelHack() {
+    chart.nearestPoint.points.forEach((value, key) => {
+        lastX = value.x;
+        document.querySelector("#chart").shadowRoot.querySelector("chart-legend").shadowRoot.querySelectorAll('.visible').forEach(label => {
+            if (label.querySelector('label').innerText == key.name) {
+                let valMeter = label.querySelector('.valuemeter');
+                if (!valMeter) {
+                    valMeter = document.createElement('div');
+                    valMeter.classList.add('valuemeter');
+                    label.appendChild(valMeter);
+                    label.style.justifyContent = 'space-between';
+                }
+                valMeter.innerText = value.y;
+            }
+        });
+        document.querySelector("#chart").shadowRoot.querySelector("chart-legend").shadowRoot.querySelector("div:nth-child(2) > label")
+    });
+}
+chart.nearestPoint.updated.on(labelHack);
+
 document.getElementById('follow-btn').addEventListener('click', function () {
     chart.options.realTime = true;
 });
@@ -286,7 +309,7 @@ function saveFile() {
         dataFast, dataSlow, dataFast2, dataSlow2
     }));
     hiddenElement.target = '_blank';
-    hiddenElement.download = `Data-${m.getFullYear()}-${m.getMonth()}-${m.getDate()}-${m.getHours()}:${m.getMinutes()}:${m.getSeconds()}.json`;
+    hiddenElement.download = `Data-${m.getFullYear()}_${m.getMonth()}_${m.getDate()}-${m.getHours()}_${m.getMinutes()}_${m.getSeconds()}.json`;
     hiddenElement.click();
 }
 
