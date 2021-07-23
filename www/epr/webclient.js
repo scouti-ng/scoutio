@@ -228,6 +228,7 @@ const dataFast = [];
 const dataSlow = [];
 const dataFast2 = [];
 const dataSlow2 = [];
+const events = [];
 const chart = new TimeChart(el, {
     baseTime: 0,
     series: [
@@ -266,6 +267,9 @@ const chart = new TimeChart(el, {
             minDomainExtent: 1,
         }
     },
+    plugins: {
+        events: new TimeChart.plugins_extra.EventsPlugin(events),
+    }
 });
 
 let lastX;
@@ -290,6 +294,14 @@ function labelHack() {
 }
 chart.nearestPoint.updated.on(labelHack);
 
+bigpage.addEventListener('dblclick', function (e) {
+    if (lastX) {
+        let name = prompt('Enter event name');
+        events.push({x: lastX, name: name});
+        chart.update();
+    }
+});
+
 document.getElementById('follow-btn').addEventListener('click', function () {
     chart.options.realTime = true;
 });
@@ -306,7 +318,7 @@ function saveFile() {
     let m = new Date();
     let hiddenElement = document.createElement('a');
     hiddenElement.href = 'data:attachment/text,' + encodeURIComponent(JSON.stringify({
-        dataFast, dataSlow, dataFast2, dataSlow2
+        version: 1.1, dataFast, dataSlow, dataFast2, dataSlow2, events
     }));
     hiddenElement.target = '_blank';
     hiddenElement.download = `Data-${m.getFullYear()}_${m.getMonth()}_${m.getDate()}-${m.getHours()}_${m.getMinutes()}_${m.getSeconds()}.json`;
@@ -336,6 +348,7 @@ function loadFile(e) {
         dataSlow.push(...obj.dataSlow);
         dataFast2.push(...obj.dataFast2);
         dataSlow2.push(...obj.dataSlow2);
+        events.push(...obj.events);
         chart.update();
     }
     fr.readAsText(e.dataTransfer.files[0]);
