@@ -282,7 +282,7 @@ function labelHack() {
                     label.appendChild(valMeter);
                     label.style.justifyContent = 'space-between';
                 }
-                valMeter.innerText = value.y;
+                valMeter.innerHTML = value.y.toFixed(2);
             }
         });
         document.querySelector("#chart").shadowRoot.querySelector("chart-legend").shadowRoot.querySelector("div:nth-child(2) > label")
