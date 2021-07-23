@@ -224,20 +224,34 @@ function meep() {
 
 // Touch graph new
 const el = document.getElementById('chart');
-const dataFast = [];
-const dataSlow = [];
+let dataFast = [];
+let dataSlow = [];
+let dataFast2 = [];
+let dataSlow2 = [];
 const chart = new TimeChart(el, {
     baseTime: 0,
     series: [
         {
             name: 'Fast',
             data: dataFast,
+            color: 'orange'
         },
         {
             name: 'Slow',
             data: dataSlow,
             lineWidth: 2,
             color: 'red',
+        },
+        {
+            name: 'Fast2',
+            data: dataFast2,
+            color: 'lightgreen'
+        },
+        {
+            name: 'Slow2',
+            data: dataSlow2,
+            lineWidth: 2,
+            color: 'green',
         },
     ],
     xRange: { min: 0, max: 20 * 1000 },
@@ -260,7 +274,62 @@ document.getElementById('follow-btn').addEventListener('click', function () {
 function upGraph(obj) {
     dataFast.push({x: obj.time, y: obj.level});
     dataSlow.push({x: obj.time, y: obj.large});
+    dataFast2.push({x: obj.time, y: obj.level2});
+    dataSlow2.push({x: obj.time, y: obj.large2});
     chart.update();
+}
+
+function saveFile() {
+    let m = new Date();
+    let hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:attachment/text,' + encodeURIComponent(JSON.stringify({
+        dataFast, dataSlow, dataFast2, dataSlow2
+    }));
+    hiddenElement.target = '_blank';
+    hiddenElement.download = `Data-${m.getFullYear()}-${m.getMonth()}-${m.getDate()}-${m.getHours()}:${m.getMinutes()}:${m.getSeconds()}.json`;
+    hiddenElement.click();
+}
+
+const bigpage = document.getElementById('bigpage');
+function highlight(e) {
+    bigpage.classList.add('highlight')
+}
+function unhighlight(e) {
+    bigpage.classList.remove('highlight')
+}
+;['dragenter', 'dragover'].forEach(eventName => {
+    bigpage.addEventListener(eventName, highlight, false)
+})
+;['dragleave', 'drop'].forEach(eventName => {
+    bigpage.addEventListener(eventName, unhighlight, false)
+})
+// On file load, replace contents of the screen.
+function loadFile(e) {
+    e.preventDefault();
+    let fr = new FileReader();
+    fr.onload=function(){
+        let obj = JSON.parse(fr.result);
+        dataFast = obj.dataFast;
+        dataSlow = obj.dataSlow;
+        dataFast2 = obj.dataFast2;
+        dataSlow2 = obj.dataSlow2;
+        chart.update();
+    }
+    fr.readAsText(e.dataTransfer.files[0]);
+}
+// Load the code when file is dropped on screen.
+bigpage.addEventListener('drop', loadFile, false);
+window.addEventListener('dragover', function(e){e.preventDefault()}, false);
+
+// on ctrl+s
+var isCtrl = false;
+document.onkeyup=function(e){
+    if (e.keyCode == 17) isCtrl = false;
+    if (e.keyCode == 83 && isCtrl) saveFile();
+}
+document.onkeydown=function(e){
+    if(e.keyCode == 17) isCtrl = true;
+    if(e.keyCode == 83 && isCtrl == true) return false;
 }
 
 registerHandler('tupdate', (obj) => upGraph(obj));

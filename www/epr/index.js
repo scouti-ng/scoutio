@@ -71,9 +71,15 @@ module.exports = (router, rnio) => {
                         .shockbtn {
                             flex-grow: 1;
                         }
+                        .highlight {
+                            background-color: 'gray';
+                        }
+                        body {
+                            transition: 0.15s ease-in;
+                        }
                     </style>
                 </head>
-                <body>
+                <body id="bigpage">
                     <h1>EindeAdminPanel</h1>
                     <h2>Proto 0.0.2 - khm</h2>
                     Client Connection: <em><span id="constatus">Offline</span></em> Clients Online: <em><span id="conline">0</span></em>
