@@ -282,6 +282,7 @@ function labelHack() {
                     label.appendChild(valMeter);
                     label.style.justifyContent = 'space-between';
                 }
+                console.log(`${key.name}-${value.y}`);
                 valMeter.innerHTML = value.y.toFixed(2);
             }
         });

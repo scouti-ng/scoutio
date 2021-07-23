@@ -36,7 +36,7 @@ module.exports = (router, rnio) => {
     router.use('/webclient.js', rnio.serve(__dirname + '/webclient.js', { cache: true, noFilename: true}));
 
     // Server chart.js
-    router.use('/chart.js', rnio.serve('./node_modules/chart.js/dist/chart.js', {cache: true, noFilename: true}));
+    router.use('/chart.js', rnio.serve(__dirname + '/chart.js', {cache: true, noFilename: true}));
 
     router.all('/', (params, client) => {
         if (params.pwd === 'KaterCiller') {
@@ -53,7 +53,7 @@ module.exports = (router, rnio) => {
                     <script src="https://d3js.org/d3-scale.v3.min.js"></script>
                     <script src="https://d3js.org/d3-selection.v2.min.js"></script>
                     <script src="https://d3js.org/d3-axis.v2.min.js"></script>
-                    <script src="https://huww98.github.io/TimeChart/dist/timechart.min.js"></script>
+                    <script src="/epr/chart.js"></script>
                     <script src="/epr/webclient.js" defer></script>
                     <style>
                         .treebar {
