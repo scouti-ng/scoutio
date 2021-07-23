@@ -224,10 +224,10 @@ function meep() {
 
 // Touch graph new
 const el = document.getElementById('chart');
-let dataFast = [];
-let dataSlow = [];
-let dataFast2 = [];
-let dataSlow2 = [];
+const dataFast = [];
+const dataSlow = [];
+const dataFast2 = [];
+const dataSlow2 = [];
 const chart = new TimeChart(el, {
     baseTime: 0,
     series: [
@@ -307,12 +307,12 @@ function unhighlight(e) {
 function loadFile(e) {
     e.preventDefault();
     let fr = new FileReader();
-    fr.onload=function(){
+    fr.onload=function() {
         let obj = JSON.parse(fr.result);
-        dataFast = obj.dataFast;
-        dataSlow = obj.dataSlow;
-        dataFast2 = obj.dataFast2;
-        dataSlow2 = obj.dataSlow2;
+        dataFast.push(...obj.dataFast);
+        dataSlow.push(...obj.dataSlow);
+        dataFast2.push(...obj.dataFast2);
+        dataSlow2.push(...obj.dataSlow2);
         chart.update();
     }
     fr.readAsText(e.dataTransfer.files[0]);

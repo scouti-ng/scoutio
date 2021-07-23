@@ -72,7 +72,7 @@ module.exports = (router, rnio) => {
                             flex-grow: 1;
                         }
                         .highlight {
-                            background-color: 'gray';
+                            background-color: lightgrey;
                         }
                         body {
                             transition: 0.15s ease-in;
