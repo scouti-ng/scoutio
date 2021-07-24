@@ -324,7 +324,7 @@ function highlight(e) {
 function unhighlight(e) {
     bigpage.classList.remove('highlight')
 }
-//prompt event on dubble click.
+// prompt event on dubble click.
 bigpage.addEventListener('dblclick', function (e) {
     if (lastX) {
         let name = prompt('Enter event name');
