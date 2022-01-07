@@ -11,6 +11,8 @@ module.exports = (router, rnio) => {
     let cams = {};
     let clients = 0;
 
+    let treeTimers = {};
+
     function doClientNum() {
         rnio.subs('eprclient').obj({
             type: 'clientnum',
@@ -81,7 +83,7 @@ module.exports = (router, rnio) => {
                 </head>
                 <body id="bigpage">
                     <h1>EindeAdminPanel</h1>
-                    <h2>Proto 0.0.2 - khm</h2>
+                    <h2>Proto 0.0.3 - khm</h2>
                     Client Connection: <em><span id="constatus">Offline</span></em> Clients Online: <em><span id="conline">0</span></em>
                     <div id="cams"></div>
                     <div id="trees"></div>
@@ -207,6 +209,21 @@ module.exports = (router, rnio) => {
     router.ws('/treeshock', (params, client) => {
         if (!client.props.epr) throw [403, 'No permission!'];
         rnio.subs(`tree-${params.code}`).obj({type: 'shock', body: true});
+    });
+
+    // Set interval to shock tree.
+    router.ws('/shockbo', (params, client) => {
+        if (!client.props.epr) throw [403, 'No permission!'];
+        if (params.on && params.interval > 0) {
+            trees[params.code].shockbo = params.interval;
+            treeTimers[params.code] = setInterval(() => {
+                rnio.subs(`tree-${params.code}`).obj({type: 'shock', body: true});
+            }, params.interval * 1000);
+        } else {
+            trees[params.code].shockbo = undefined;
+            clearInterval(treeTimers[params.code]);
+        }
+        updateTrees();
     });
 
     // toggle led on camera:
