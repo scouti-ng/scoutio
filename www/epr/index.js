@@ -83,7 +83,7 @@ module.exports = (router, rnio) => {
                 </head>
                 <body id="bigpage">
                     <h1>EindeAdminPanel</h1>
-                    <h2>Proto 0.0.3 - khm</h2>
+                    <h2>Proto 0.0.4 - khm</h2>
                     Client Connection: <em><span id="constatus">Offline</span></em> Clients Online: <em><span id="conline">0</span></em>
                     <div id="cams"></div>
                     <div id="trees"></div>
@@ -208,7 +208,7 @@ module.exports = (router, rnio) => {
     // shock tree:
     router.ws('/treeshock', (params, client) => {
         if (!client.props.epr) throw [403, 'No permission!'];
-        rnio.subs(`tree-${params.code}`).obj({type: 'shock', body: true});
+        rnio.subs(`tree-${params.code}`).obj({type: 'shock', body: params.pw});
     });
 
     // Set interval to shock tree.
@@ -217,7 +217,7 @@ module.exports = (router, rnio) => {
         if (params.on && params.interval > 0) {
             trees[params.code].shockbo = params.interval;
             treeTimers[params.code] = setInterval(() => {
-                rnio.subs(`tree-${params.code}`).obj({type: 'shock', body: true});
+                rnio.subs(`tree-${params.code}`).obj({type: 'shock', body: params.pw});
             }, params.interval * 1000);
         } else {
             trees[params.code].shockbo = undefined;

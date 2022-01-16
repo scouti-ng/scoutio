@@ -102,9 +102,14 @@ registerHandler('trees', (trees) => {
         }
         treebar.appendChild(intervalFld);
 
+        let pulseWidthFld = document.createElement('input');
+        pulseWidthFld.type = 'number';
+        pulseWidthFld.value = 500;
+        treebar.appendChild(pulseWidthFld);
+
         let intervalbtn = document.createElement('button');
         intervalbtn.onclick = function() {
-            setShockBo(treecode, intervalFld.value, !(trees[treecode].shockbo !== undefined && trees[treecode].shockbo > 0));
+            setShockBo(treecode, intervalFld.value, !(trees[treecode].shockbo !== undefined && trees[treecode].shockbo > 0), pulseWidthFld.value);
         };
         intervalbtn.innerText = `TURN SHOCKING ${treecode} ${trees[treecode].shockbo ? 'OFF' : 'ON'}`;
         intervalbtn.classList.add('shockbtn');
@@ -112,7 +117,7 @@ registerHandler('trees', (trees) => {
 
         let shockbtn = document.createElement('button');
         shockbtn.onclick = function() {
-            shockTree(treecode);
+            shockTree(treecode, pulseWidthFld.value);
         };
         shockbtn.innerText = `SINGLE SHOCK ${treecode}`;
         shockbtn.classList.add('shockbtn');
@@ -186,13 +191,13 @@ function toggleCamLed(code) {
 }
 
 // Toggle led on tree
-function shockTree(code) {
-    rpc('/epr/treeshock', {code});
+function shockTree(code, pw) {
+    rpc('/epr/treeshock', {code, pw});
 }
 
 // Toggle an set interval on shocking.
-function setShockBo(code, interval, on) {
-    rpc('/epr/shockbo', {code, interval, on});
+function setShockBo(code, interval, on, pw) {
+    rpc('/epr/shockbo', {code, interval, on, pw});
 }
 
 function touchResetTree(code) {
