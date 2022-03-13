@@ -5,7 +5,7 @@ const { params } = require("restnio");
 const head = `<meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
 * {
-    font-size: 2vw;
+    font-family: monospace;
 }
 </style>`
 
