@@ -2,7 +2,14 @@
 
 const { params } = require("restnio");
 
-const head = `<meta name="viewport" content="width=device-width,initial-scale=1">
+const head = `
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta property="og:site_name" content="Overvliegen A287">
+<meta property="og:title" content="Overvliegen A287" />
+<meta property="og:description" content="Startopdracht overvliegen." />
+<meta property="og:image" itemprop="image" content="http://api.scouti.ng/overvliegen/turtle.gif">
+<meta property="og:type" content="website" />
+<meta property="og:updated_time" content="1440432930" />
 <style>
 * {
     font-family: monospace;
