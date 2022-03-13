@@ -14,22 +14,23 @@ module.exports = (router, rnio) => {
                 Beste afdeling. Het is erg belangrijk dat jullie aankomende zaterdag allemaal verschijnen als schildpad. <br/>
                 Je mag helemaal zelf bedenken hoe je dit verzorgt. Als het niet duidelijk is dat je een schildpad bent dan zijn er wel strafpunten!
                 <br/><br/>
+                <h3>Alternatieve opdracht: Afwezig.</h3>
                 De afdeling die niet aanwezig kunnen zijn tijdens het overvliegen krijgen de volgende opdracht mee:<br/>
                 Stuur stipt om 2030 een filmpje in de overvliegen appgroep van jezelf die een adtje trekt.
                 Dit mag gewoon een wateradt zijn.
                 Het is heel belangrijk dat je in het filmpje kan zien dat je een schildpad bent.
                 Maak dit zo mooi mogelijk; denk aan schmink, kleding, attributen, etc.
                 <br/><br/>
-                SUCCESS!!!
+                SUCCESS!!!<br/>
                 <img src="turtle.gif" alt="SchildpadGifje">
             </html>`;
         } else {
             return `<html>
             <h2>Overvliegen A287</h2>
-            ${params.pwd ? '<span style="color: red">Fout codewoord!</span>': ''}
-            <h3>Startopdracht: Vind het goede codewoord:</h3>
+            ${params.pwd ? '<span style="color: red">Fout codewoord!</span>': '<span style="color: yellow">Codewoord ontbreekt!</span>'}
+            <h3>Startopdracht: Vind het goede codewoord (9 letters)</h3>
             <form action="/overvliegen/" method="post">
-                <input type="password" id="pwd" name="pwd" placeholder="Password"><br>
+                <input type="password" id="pwd" name="pwd" placeholder="Codewoord"><br>
                 <input type="submit" value="Login">
             </form>
             </html>`
