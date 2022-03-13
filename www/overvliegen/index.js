@@ -16,10 +16,11 @@ module.exports = (router, rnio) => {
                 <br/><br/>
                 <h3>Alternatieve opdracht: Afwezig.</h3>
                 De afdeling die niet aanwezig kunnen zijn tijdens het overvliegen krijgen de volgende opdracht mee:<br/>
-                Stuur stipt om 2030 een filmpje in de overvliegen appgroep van jezelf die een adtje trekt.
-                Dit mag gewoon een wateradt zijn.
+                Stuur stipt om 2030 op zaterdag 19 maart een filmpje in de overvliegen appgroep van jezelf die een adtje trekt.
+                Dit mag gewoon een wateradt zijn als je geen alcohol wilt nuttigen.
                 Het is heel belangrijk dat je in het filmpje kan zien dat je een schildpad bent.
                 Maak dit zo mooi mogelijk; denk aan schmink, kleding, attributen, etc.
+                Na het adtten eet je nog een beschuitje en probeer je zo snel mogelijk te fluiten.
                 <br/><br/>
                 SUCCESS!!!<br/>
                 <img src="turtle.gif" alt="SchildpadGifje">
