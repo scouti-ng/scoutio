@@ -30,7 +30,7 @@ module.exports = (router, rnio) => {
             ${params.pwd ? '<span style="color: red">Fout codewoord!</span>': '<span style="color: yellow">Codewoord ontbreekt!</span>'}
             <h3>Startopdracht: Vind het goede codewoord (9 letters)</h3>
             <form action="/overvliegen/" method="post">
-                <input type="password" id="pwd" name="pwd" placeholder="Codewoord"><br>
+                <input type="password" id="pwd" name="pwd" minlength="9" maxlength="9" placeholder="Codewoord"><br>
                 <input type="submit" value="Login">
             </form>
             </html>`
