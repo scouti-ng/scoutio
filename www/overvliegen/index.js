@@ -28,7 +28,7 @@ module.exports = (router, rnio) => {
         } else {
             return `<html>
             <h2>Overvliegen A287</h2>
-            ${params.pwd ? '<span style="color: red">Fout codewoord!</span>': '<span style="color: yellow">Codewoord ontbreekt!</span>'}
+            ${params.pwd ? '<span style="color: red">Fout codewoord!</span>': '<span style="color: orange">Codewoord ontbreekt!</span>'}
             <h3>Startopdracht: Vind het goede codewoord (9 letters)</h3>
             <form action="/overvliegen/" method="post">
                 <input type="password" id="pwd" name="pwd" minlength="9" maxlength="9" placeholder="Codewoord"><br>
