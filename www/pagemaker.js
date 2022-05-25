@@ -1,6 +1,7 @@
 const fs = require('fs');
 const xss = require('xss');
 /** @typedef {import("restnio").Client} Client */
+///dfsdffds
 
 function file(path) {
     return fs.readFileSync(path, 'utf8')
