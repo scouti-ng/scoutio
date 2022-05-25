@@ -17,6 +17,7 @@ module.exports = (router, rnio) => {
     router.use('/fontawesome.min.css', rnio.serve('./node_modules/@fortawesome/fontawesome-free/css/all.min.css', {cache: true, noFilename: true}))
     router.use('/webfonts', rnio.serve('./node_modules/@fortawesome/fontawesome-free/webfonts/', {cache: true}))
 
+    router.use(rnio.cors());
 
     // Index
     router.get('/', (params, client) => {
