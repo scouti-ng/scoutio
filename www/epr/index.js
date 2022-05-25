@@ -83,7 +83,7 @@ module.exports = (router, rnio) => {
                 </head>
                 <body id="bigpage">
                     <h1>EindeAdminPanel</h1>
-                    <h2>Proto 0.0.4 - khm</h2>
+                    <h2>Proto 0.0.5 - khm</h2>
                     Client Connection: <em><span id="constatus">Offline</span></em> Clients Online: <em><span id="conline">0</span></em>
                     <div id="cams"></div>
                     <div id="trees"></div>
