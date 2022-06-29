@@ -111,7 +111,7 @@ registerHandler('trees', (trees) => {
         intervalbtn.onclick = function() {
             setShockBo(treecode, intervalFld.value, !(trees[treecode].shockbo !== undefined && trees[treecode].shockbo > 0), pulseWidthFld.value);
         };
-        intervalbtn.innerText = `TURN SHOCKING ${treecode} ${trees[treecode].shockbo ? 'OFF' : 'ON'}`;
+        intervalbtn.innerText = `TURN SHOCKING $${trees[treecode].alias} ${trees[treecode].shockbo ? 'OFF' : 'ON'}`;
         intervalbtn.classList.add('shockbtn');
         treebar.appendChild(intervalbtn);
 
@@ -119,7 +119,7 @@ registerHandler('trees', (trees) => {
         shockbtn.onclick = function() {
             shockTree(treecode, pulseWidthFld.value);
         };
-        shockbtn.innerText = `SINGLE SHOCK ${treecode}`;
+        shockbtn.innerText = `SINGLE SHOCK ${trees[treecode].alias}`;
         shockbtn.classList.add('shockbtn');
         treebar.appendChild(shockbtn);
 
