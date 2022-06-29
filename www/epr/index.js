@@ -275,7 +275,7 @@ module.exports = (router, rnio) => {
 
     router.ws('/doota', async(params, client) => {
         if (otaData) {
-            rnio.subs('eprclient').obj({
+            rnio.subs('eprtree').obj({
                 type: 'otastart',
                 size: otaSize,
                 version: otaVersion
@@ -283,7 +283,7 @@ module.exports = (router, rnio) => {
         }
         for (let i = 0; i < otaData.length; i++) {
             await timeout(50);
-            rnio.subs('eprclient').obj({
+            rnio.subs('eprtree').obj({
                 type: 'otapart',
                 chunknum: otaData[i].chunknum,
                 chunksize: otaData[i].chunksize,
