@@ -324,6 +324,52 @@ document.getElementById('follow-btn').addEventListener('click', function () {
     chart.options.realTime = true;
 });
 
+// var test;
+document.getElementById('upload-btn').addEventListener('click', function () {
+    let file = document.getElementById("ota-file").files[0];
+    if (file) {
+        let reader = new FileReader();
+        reader.readAsBinaryString(file);
+        reader.onload = function (e) {
+            let binaryString = e.target.result;
+            alert('test');
+            let size = file.size;
+            let splitSize = size;
+            let chunks = [];
+            let i = 0;
+            while(splitSize > 2000) { // hardcoded 2000 byte size chunks.
+                chunks.push({
+                    chunknum: i, 
+                    chunksize: 2000,
+                    chunk: btoa(binaryString.substring(i*2000, (i+1)*2000))
+                });
+                splitSize -= 2000;
+                i++;
+            }
+            // Also the last part
+            if (splitSize > 0) {
+                chunks.push({
+                    chunknum: i,
+                    chunksize: splitSize,
+                    chunk: btoa(binaryString.substring(i*2000, size))
+                });
+            }
+            // let base64str = btoa(binaryString);
+            let version = parseInt(document.getElementById('version').value);
+            rpc('/epr/uploadota', {
+                version, size, data: chunks
+            }); 
+        }
+        reader.onerror = function (e) {
+            alert("Read file error!");
+        }
+    }
+});
+
+document.getElementById('flash-btn').addEventListener('click', function () {
+    rpc('/epr/doota');
+});
+
 function upGraph(obj) {
     dataFast.push({x: obj.time, y: obj.level});
     dataSlow.push({x: obj.time, y: obj.large});

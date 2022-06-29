@@ -83,13 +83,17 @@ module.exports = (router, rnio) => {
                 </head>
                 <body id="bigpage">
                     <h1>EindeAdminPanel</h1>
-                    <h2>Proto 0.0.5 - khm</h2>
+                    <h2>Proto 0.0.6 - khm</h2>
                     Client Connection: <em><span id="constatus">Offline</span></em> Clients Online: <em><span id="conline">0</span></em>
                     <div id="cams"></div>
                     <div id="trees"></div>
                     <!-- <button onClick="meep()">Meep</button> -->
                     <div id="chart" style="width: 100%; height: 500px;"></div>
-                    <button id="follow-btn">Follow Data</button>
+                    <button id="follow-btn">Follow Data</button><br/>
+                    OTA-UPDATE: <input type="file" id="ota-file" name="ota-file" accept="application/octet-stream">
+                    <input type="number" id="version" name="version" placeholder="VERSION">
+                    <button id="upload-btn">Upload</button>
+                    <button id="flash-btn">FLASH!</button>
                 </body>
             
             </html>`;
@@ -128,6 +132,7 @@ module.exports = (router, rnio) => {
             online: true
         };
         client.subscribe('epr');
+        client.subscribe('eprtree');
         client.subscribe(`tree-${params.code}`);
         updateTrees();
         return {
@@ -256,4 +261,38 @@ module.exports = (router, rnio) => {
             body: params
         });
     });
+
+    let otaVersion = 0;
+    let otaSize = 0;
+    let otaData;
+
+    router.ws('/uploadota', (params, client) => {
+        if (!client.props.epr) throw [403, 'No permission!'];
+        otaVersion = params.version;
+        otaSize = params.size;
+        otaData = params.data;
+    });
+
+    router.ws('/doota', async(params, client) => {
+        if (otaData) {
+            rnio.subs('eprclient').obj({
+                type: 'otastart',
+                size: otaSize,
+                version: otaVersion
+            });
+        }
+        for (let i = 0; i < otaData.length; i++) {
+            await timeout(50);
+            rnio.subs('eprclient').obj({
+                type: 'otapart',
+                chunknum: otaData[i].chunknum,
+                chunksize: otaData[i].chunksize,
+                chunk: otaData[i].chunk
+            });
+        }
+    });
 };
+
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
