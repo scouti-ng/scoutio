@@ -282,6 +282,7 @@ module.exports = (router, rnio) => {
         rnio.subs(`cam-${params.code}`).obj({type: 'camon', body: true});
     });
 
+    // off
     router.ws('/cameraoff', (params, client) => {
         if (!client.props.epr) throw [403, 'No permission!'];
         cams[params.code].pic = catpil;
