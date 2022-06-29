@@ -20,7 +20,8 @@ apps: [
         },
         env_development: {
             NODE_ENV: "development",
-            watch: "."
+            watch: ".",
+            ignore_watch : ['treealias.json']
         },
     },
 ]};

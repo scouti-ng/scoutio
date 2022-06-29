@@ -77,7 +77,7 @@ registerHandler('trees', (trees) => {
         treebar.id = `tree-${treecode}`;
         let treetext = document.createElement('p');
         treetext.id = `treetxt-${treecode}`;
-        treetext.innerText = `Tree ${treecode}: [${trees[treecode].online ? 'ONLINE': 'OFFLINE?'}]`;
+        treetext.innerText = `Tree ${trees[treecode].alias}: [${trees[treecode].online ? 'ONLINE': 'OFFLINE?'}]`;
         treebar.appendChild(treetext);
         let togglebtn = document.createElement('button');
         togglebtn.onclick = function() {
@@ -179,6 +179,12 @@ registerHandler('toggledflash', (obj) => {
     document.getElementById(`cam-${obj.code}`).style.backgroundColor = obj.status ? 'lightblue' : 'white';
 });
 
+registerHandler('promptalias', (obj) => {
+    let alias = prompt(`Enter alias for ${obj.code}:`);
+    if (alias) {
+        rpc('/epr/givealias', {code: obj.code, alias});
+    }
+});
 
 // Toggle led on tree
 function toggleLed(code) {
