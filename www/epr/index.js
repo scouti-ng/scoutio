@@ -68,7 +68,7 @@ module.exports = (router, rnio) => {
                         .treebar {
                             display: flex;
                             flex-direction: row;
-                            width: 2400px;
+                            width: 1300px;
                         }
                         #cams {
                             display: flex;
@@ -90,7 +90,7 @@ module.exports = (router, rnio) => {
                 </head>
                 <body id="bigpage">
                     <h1>EindeAdminPanel</h1>
-                    <h2>Proto 0.0.6 - khm</h2>
+                    <h2>Proto 0.0.7 - khm</h2>
                     Client Connection: <em><span id="constatus">Offline</span></em> Clients Online: <em><span id="conline">0</span></em>
                     <div id="cams"></div>
                     <div id="trees"></div>
