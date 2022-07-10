@@ -134,6 +134,7 @@ module.exports = (router, rnio) => {
         client.props.epr = true;
         client.props.type = 'tree';
         client.props.code = params.code;
+        clearInterval(treeTimers[client.props.code]);
         if (params.version) {
             client.props.version = params.version;
         } else {
