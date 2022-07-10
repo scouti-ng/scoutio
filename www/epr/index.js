@@ -228,6 +228,7 @@ module.exports = (router, rnio) => {
             break;
             case 'tree':
                 trees[client.props.code].online = false;
+                clearInterval(treeTimers[client.props.code]);
                 updateTrees();
             break;
             case 'cam':
