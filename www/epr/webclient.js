@@ -416,9 +416,9 @@ bigpage.addEventListener('dblclick', function (e) {
 ;['dragleave', 'drop'].forEach(eventName => {
     bigpage.addEventListener(eventName, unhighlight, false)
 })
+
 // On file load, replace contents of the screen.
-function loadFile(e) {
-    e.preventDefault();
+function loadGraphFile(file) {
     let fr = new FileReader();
     fr.onload=function() {
         let obj = JSON.parse(fr.result);
@@ -429,11 +429,24 @@ function loadFile(e) {
         events.push(...obj.events);
         chart.update();
     }
-    fr.readAsText(e.dataTransfer.files[0]);
+    fr.readAsText(file);
+}
+// Helper function for loading on drop event.
+function loadFile(e) {
+    e.preventDefault();
+    loadGraphFile(e.dataTransfer.files[0]);
 }
 // Load the code when file is dropped on screen.
 bigpage.addEventListener('drop', loadFile, false);
 window.addEventListener('dragover', function(e){e.preventDefault()}, false);
+
+// Little hack to do same as above but with a clickable folder thing becuase ehh idk weird browser stuff.
+document.getElementById('load-btn').addEventListener('click', function () {
+    let file = document.getElementById("graph-file").files[0];
+    if (file) {
+        loadGraphFile(file);
+    }
+});
 
 // on ctrl+s
 var isCtrl = false;
