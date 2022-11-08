@@ -1,5 +1,3 @@
-const { boolean } = require("restnio/lib/params");
-
 // Open socket connction for all use.
 let socket = null;
 let eventHandlers = new Map();
