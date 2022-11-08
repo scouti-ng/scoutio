@@ -1,3 +1,5 @@
+const { boolean } = require("restnio/lib/params");
+
 // Open socket connction for all use.
 let socket = null;
 let eventHandlers = new Map();
@@ -328,6 +330,21 @@ chart.nearestPoint.updated.on(labelHack);
 
 document.getElementById('follow-btn').addEventListener('click', function () {
     chart.options.realTime = true;
+});
+
+let playing = -1;
+
+document.getElementById('play-btn').addEventListener('click', function () {
+    playing = setInterval(() => {
+        chart.options.xRange.min += 1;
+        chart.options.xRange.max += 1;
+        chart.update();
+    }, 1);
+});
+
+document.getElementById('pause-btn').addEventListener('click', function () {
+    clearInterval(playing);
+    playing = -1;
 });
 
 // var test;

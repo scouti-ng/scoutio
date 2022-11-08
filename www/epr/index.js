@@ -96,7 +96,7 @@ module.exports = (router, rnio) => {
                     <div id="trees"></div>
                     <!-- <button onClick="meep()">Meep</button> -->
                     <div id="chart" style="width: 100%; height: 500px;"></div>
-                    <button id="follow-btn">Follow Data</button><input type="file" id="graph-file" name="graph-file" accept="application/json"><button id="load-btn">Load</button><br/>
+                    <button id="follow-btn">Follow Data</button><input type="file" id="graph-file" name="graph-file" accept="application/json"><button id="load-btn">Load</button><button id="play-btn">Play</button><button id="pause-btn">Pause</button><br/>
                     OTA-UPDATE: <input type="file" id="ota-file" name="ota-file" accept="application/octet-stream">
                     <input type="number" id="version" name="version" placeholder="VERSION">
                     <button id="upload-btn">Upload</button>
