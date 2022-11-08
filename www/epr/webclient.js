@@ -331,13 +331,21 @@ document.getElementById('follow-btn').addEventListener('click', function () {
 });
 
 let playing = -1;
+let maxValue = -1;
 
 document.getElementById('play-btn').addEventListener('click', function () {
-    playing = setInterval(() => {
-        chart.options.xRange.min += 1;
-        chart.options.xRange.max += 1;
-        chart.update();
-    }, 1);
+    if (playing == -1) {
+        maxValue = dataFast[dataFast.length-1].x; // little hack todo more proper.
+        playing = setInterval(() => {
+            let curDomain = chart.plugins.zoom.options.x.scale.domain();
+            if (curDomain[2] < maxValue) {
+                curDomain[1]++;
+                curDomain[2]++;
+                chart.plugins.zoom.options.x.scale.domain(curDomain);
+                chart.update();
+            }
+        }, 1);
+    }
 });
 
 document.getElementById('pause-btn').addEventListener('click', function () {
