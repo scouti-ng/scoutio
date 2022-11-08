@@ -422,11 +422,18 @@ function loadGraphFile(file) {
     let fr = new FileReader();
     fr.onload=function() {
         let obj = JSON.parse(fr.result);
-        dataFast.push(...obj.dataFast);
-        dataSlow.push(...obj.dataSlow);
-        dataFast2.push(...obj.dataFast2);
-        dataSlow2.push(...obj.dataSlow2);
-        events.push(...obj.events);
+        // Release stress on callstack:
+        for (let entry of obj.dataFast)  dataFast.push(entry);
+        for (let entry of obj.dataSlow)  dataSlow.push(entry);
+        for (let entry of obj.dataFast2) dataFast2.push(entry);
+        for (let entry of obj.dataSlow2) dataSlow2.push(entry);
+        for (let entry of obj.events)    events.push(entry);
+
+        // dataFast.push(...obj.dataFast);
+        // dataSlow.push(...obj.dataSlow);
+        // dataFast2.push(...obj.dataFast2);
+        // dataSlow2.push(...obj.dataSlow2);
+        // events.push(...obj.events);
         chart.update();
     }
     fr.readAsText(file);
