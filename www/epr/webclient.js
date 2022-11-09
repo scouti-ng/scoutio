@@ -317,7 +317,7 @@ function findNearestEvent() {
         let e = events[ei];
         if (e.x - 100 < lastX && lastX < e.x + 100) {
             closeEventIndex = ei;
-            document.body.style.cursor = 'column-resize';
+            document.body.style.cursor = 'col-resize';
             return;
         }
     }

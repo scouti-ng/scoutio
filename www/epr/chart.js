@@ -309,21 +309,19 @@ var TimeChart = function(t, e, s, i) {
             }
         }
         onMouseMove(t) {
-            if (t.pointerType != 'mouse' || t.button == 1) {
-                if (null === this.previousPoint) return;
-                const e = this.point(t);
-                let s = !1;
-                for (const {
-                        dir: t,
-                        op: i
-                    } of f(this.options)) {
-                    const n = e[t] - this.previousPoint[t],
-                        o = v(i.scale),
-                        a = i.scale.domain();
-                    x(i, a.map((t => t - o * n))) && (s = !0)
-                }
-                this.previousPoint = e, s && this.scaleUpdated.dispatch()
+            if (null === this.previousPoint) return;
+            const e = this.point(t);
+            let s = !1;
+            for (const {
+                    dir: t,
+                    op: i
+                } of f(this.options)) {
+                const n = e[t] - this.previousPoint[t],
+                    o = v(i.scale),
+                    a = i.scale.domain();
+                x(i, a.map((t => t - o * n))) && (s = !0)
             }
+            this.previousPoint = e, s && this.scaleUpdated.dispatch()
         }
         onMouseDown(t) {
             if (t.pointerType != 'mouse' || t.button == 1) {
