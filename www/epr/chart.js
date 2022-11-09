@@ -309,25 +309,31 @@ var TimeChart = function(t, e, s, i) {
             }
         }
         onMouseMove(t) {
-            if (null === this.previousPoint) return;
-            const e = this.point(t);
-            let s = !1;
-            for (const {
-                    dir: t,
-                    op: i
-                } of f(this.options)) {
-                const n = e[t] - this.previousPoint[t],
-                    o = v(i.scale),
-                    a = i.scale.domain();
-                x(i, a.map((t => t - o * n))) && (s = !0)
+            if (t.pointerType != 'mouse' || t.button == 1) {
+                if (null === this.previousPoint) return;
+                const e = this.point(t);
+                let s = !1;
+                for (const {
+                        dir: t,
+                        op: i
+                    } of f(this.options)) {
+                    const n = e[t] - this.previousPoint[t],
+                        o = v(i.scale),
+                        a = i.scale.domain();
+                    x(i, a.map((t => t - o * n))) && (s = !0)
+                }
+                this.previousPoint = e, s && this.scaleUpdated.dispatch()
             }
-            this.previousPoint = e, s && this.scaleUpdated.dispatch()
         }
         onMouseDown(t) {
-            "mouse" === t.pointerType && (this.el.setPointerCapture(t.pointerId), this.previousPoint = this.point(t), this.el.style.cursor = "grabbing")
+            if (t.pointerType != 'mouse' || t.button == 1) {
+                "mouse" === t.pointerType && (this.el.setPointerCapture(t.pointerId), this.previousPoint = this.point(t), this.el.style.cursor = "grabbing")
+            }
         }
         onMouseUp(t) {
-            null !== this.previousPoint && (this.previousPoint = null, this.el.releasePointerCapture(t.pointerId), this.el.style.cursor = "")
+            if (t.pointerType != 'mouse' || t.button == 1) {
+                null !== this.previousPoint && (this.previousPoint = null, this.el.releasePointerCapture(t.pointerId), this.el.style.cursor = "")
+            }
         }
     }
     class b {
