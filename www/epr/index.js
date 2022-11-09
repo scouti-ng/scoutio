@@ -91,7 +91,7 @@ module.exports = (router, rnio) => {
                 <body id="bigpage">
                     <h1>EindeAdminPanel</h1>
                     <h2>Proto 0.0.7 - khm</h2>
-                    Client Connection: <em><span id="constatus">Offline</span></em> Clients Online: <em><span id="conline">0</span></em>
+                    Client Connection: <em><span id="constatus">Offline</span></em> Clients Online: <em><span id="conline">0</span></em> File loaded: <em><span id="fileloaded">nothing</span></em>
                     <div id="cams"></div>
                     <div id="trees"></div>
                     <!-- <button onClick="meep()">Meep</button> -->

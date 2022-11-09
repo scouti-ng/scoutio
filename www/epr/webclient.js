@@ -311,6 +311,8 @@ rrrr.style.left = '10px';
 
 let lastX;
 let closeEventIndex = -1;
+let draggingEvent = -1;
+
 
 function findNearestEvent() {
     for(let ei = 0; ei < events.length; ei++) {
@@ -321,20 +323,21 @@ function findNearestEvent() {
             return;
         }
     }
-    document.body.style.cursor = 'auto';
+    if (draggingEvent == -1) document.body.style.cursor = 'auto';
     closeEventIndex = -1;
 }
 
-let draggingEvent = -1;
 document.addEventListener('mousedown', function(event) {
     if (event.button == 0) draggingEvent = closeEventIndex;
+    if (draggingEvent != -1) document.body.style.cursor = 'move';
 });
 
 document.addEventListener('mouseup', function(event) {
     if (event.button == 0 && draggingEvent != -1) {
-        event[draggingEvent].x = lastX;
+        events[draggingEvent].x = lastX;
         chart.update();
         draggingEvent = -1;
+        document.body.style.cursor = 'auto';
     }
 });
 
@@ -476,8 +479,9 @@ function unhighlight(e) {
     bigpage.classList.remove('highlight')
 }
 // prompt event on dubble click.
-bigpage.addEventListener('dblclick', function (e) {
+bigpage.addEventListener('contextmenu', function (e) {
     if (lastX) {
+        e.preventDefault();
         let name = prompt('Enter event name');
         events.push({x: lastX, name: name});
         chart.update();
@@ -509,6 +513,7 @@ function sanitiseX(arr, newArr) {
 
 // On file load, replace contents of the screen.
 function loadGraphFile(file) {
+    document.getElementById('fileloaded').innerHTML = file.name;
     let fr = new FileReader();
     fr.onload=function() {
         let obj = JSON.parse(fr.result);
@@ -556,11 +561,11 @@ var isCtrl = false;
 document.onkeyup=function(e){
     if (e.keyCode == 17) isCtrl = false;
     if (e.keyCode == 83 && isCtrl) saveFile();
-    if (e.keyCode == 188) {
+    if (e.keyCode == 37) {
         scaleFactor -= parseFloat(document.getElementById('stepsize').value);
         document.getElementById('speed').value = scaleFactor;
     }
-    if (e.keyCode == 190) {
+    if (e.keyCode == 39) {
         scaleFactor += parseFloat(document.getElementById('stepsize').value);
         document.getElementById('speed').value = scaleFactor;
     }
