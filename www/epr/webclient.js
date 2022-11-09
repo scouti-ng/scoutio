@@ -460,8 +460,10 @@ function sanitiseX(arr, newArr) {
         if (x > largestNow) largestNow = x;
         else {
             sanOffset = -x + 2 + sanOffset;
-            largestNow = x = entry.x + sanOffset;
+            x = x + sanOffset;
+            largestNow = x;
         }
+        entry.x = x;
         arr.push(entry);
     }
 }
