@@ -491,8 +491,8 @@ bigpage.addEventListener('contextmenu', function (e) {
             if (window.confirm(`Rename event ${events[closeEventIndex].name}?`)) {
                 let newName = prompt('Enter name:');
                 let oldName = events[closeEventIndex].name;
-                if (oldName.contains('start')) events[closeEventIndex].name = `start[${newName}]`;
-                else if (oldName.contains('end')) events[closeEventIndex].name = `end[${newName}]`;
+                if (oldName.includes('start')) events[closeEventIndex].name = `start[${newName}]`;
+                else if (oldName.includes('end')) events[closeEventIndex].name = `end[${newName}]`;
                 else events[closeEventIndex].name = newName;
                 chart.update();
             } else if (window.confirm(`Delete event ${events[closeEventIndex].name}?`)){
