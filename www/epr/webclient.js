@@ -495,11 +495,11 @@ document.onkeyup=function(e){
     if (e.keyCode == 17) isCtrl = false;
     if (e.keyCode == 83 && isCtrl) saveFile();
     if (e.keyCode == 188) {
-        scaleFactor -= document.getElementById('stepsize').value;
+        scaleFactor -= parseFloat(document.getElementById('stepsize').value);
         document.getElementById('speed').value = scaleFactor;
     }
     if (e.keyCode == 190) {
-        scaleFactor += document.getElementById('stepsize').value;
+        scaleFactor += parseFloat(document.getElementById('stepsize').value);
         document.getElementById('speed').value = scaleFactor;
     }
     if (e.keyCode == 32) {
