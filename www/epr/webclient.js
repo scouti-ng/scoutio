@@ -451,23 +451,38 @@ bigpage.addEventListener('dblclick', function (e) {
     bigpage.addEventListener(eventName, unhighlight, false)
 })
 
+
+function sanitiseX(arr, newArr) {
+    let sanOffset = 0;
+    let largestNow = 0;
+    for (let entry of newArr) {
+        let x = entry.x + sanOffset;
+        if (x > largestNow) largestNow = x;
+        else {
+            sanOffset = -x + 2 + sanOffset;
+            largestNow = x = entry.x + sanOffset;
+        }
+        arr.push(entry);
+    }
+}
+
 // On file load, replace contents of the screen.
 function loadGraphFile(file) {
     let fr = new FileReader();
     fr.onload=function() {
         let obj = JSON.parse(fr.result);
         // Release stress on callstack:
-        let largestNow = 0;
-        for (let entry of obj.dataFast)  {
-            // Sanity check.
-            if (entry.x > largestNow) largestNow = entry.x;
-            else alert(`Current x={${entry.x}} is smaller than max ${largestNow}???`)
-            dataFast.push(entry);
-        }
-        for (let entry of obj.dataSlow)  dataSlow.push(entry);
-        for (let entry of obj.dataFast2) dataFast2.push(entry);
-        for (let entry of obj.dataSlow2) dataSlow2.push(entry);
-        for (let entry of obj.events)    events.push(entry);
+        sanitiseX(dataSlow, obj.dataSlow);
+        sanitiseX(dataSlow, obj.dataSlow2);
+        sanitiseX(dataSlow, obj.dataFast);
+        sanitiseX(dataSlow, obj.dataFast2);
+        sanitiseX(events, obj.events);
+
+
+        // for (let entry of obj.dataSlow)  dataSlow.push(entry);
+        // for (let entry of obj.dataFast2) dataFast2.push(entry);
+        // for (let entry of obj.dataSlow2) dataSlow2.push(entry);
+        // for (let entry of obj.events)    events.push(entry);
 
         // dataFast.push(...obj.dataFast);
         // dataSlow.push(...obj.dataSlow);
