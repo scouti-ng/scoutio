@@ -297,7 +297,8 @@ const chart = new TimeChart(el, {
         y: {
             autoRange: true,
             minDomainExtent: 1,
-        }
+        },
+        panMouseButtons: 4
     },
     plugins: {
         events: new TimeChart.plugins_extra.EventsPlugin(events),
