@@ -473,9 +473,9 @@ function loadGraphFile(file) {
         let obj = JSON.parse(fr.result);
         // Release stress on callstack:
         sanitiseX(dataSlow, obj.dataSlow);
-        sanitiseX(dataSlow, obj.dataSlow2);
-        sanitiseX(dataSlow, obj.dataFast);
-        sanitiseX(dataSlow, obj.dataFast2);
+        sanitiseX(dataSlow2, obj.dataSlow2);
+        sanitiseX(dataFast, obj.dataFast);
+        sanitiseX(dataFast2, obj.dataFast2);
         sanitiseX(events, obj.events);
 
 
