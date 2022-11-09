@@ -332,11 +332,11 @@ document.getElementById('follow-btn').addEventListener('click', function () {
 
 let playing = -1;
 let maxValue = -1;
+let scaleFactor = 1;
 
 function scrollChart() {
     let curDomain = chart.plugins.zoom.options.x.scale.domain();
     if (curDomain[1] < maxValue) {
-        let scaleFActor = document.getElementById('nuttelozeslider').value / 50;
         curDomain[0]+= scaleFActor;
         curDomain[1]+= scaleFActor;
         chart.plugins.zoom.options.x.scale.domain(curDomain);
@@ -355,6 +355,10 @@ document.getElementById('playpause-btn').addEventListener('click', function () {
         playing = -1;
         document.getElementById('playpause-btn').innerHTML = 'Play';
     }
+});
+
+document.getElementById('speed').addEventListener('change', function() {
+    scaleFactor = this.value;
 });
 
 // var test;
@@ -487,6 +491,14 @@ var isCtrl = false;
 document.onkeyup=function(e){
     if (e.keyCode == 17) isCtrl = false;
     if (e.keyCode == 83 && isCtrl) saveFile();
+    if (e.keyCode == 188) {
+        scaleFactor -= 0.25;
+        document.getElementById('speed').value = scaleFactor;
+    }
+    if (e.keyCode == 190) {
+        scaleFactor += 0.25;
+        document.getElementById('speed').value = scaleFactor;
+    }
 }
 document.onkeydown=function(e){
     if(e.keyCode == 17) isCtrl = true;
