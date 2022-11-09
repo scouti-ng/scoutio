@@ -337,8 +337,8 @@ let scaleFactor = 1;
 function scrollChart() {
     let curDomain = chart.plugins.zoom.options.x.scale.domain();
     if (curDomain[1] < maxValue) {
-        curDomain[0]+= scaleFactor;
-        curDomain[1]+= scaleFactor;
+        curDomain[0]+= scaleFactor*10;
+        curDomain[1]+= scaleFactor*10;
         chart.plugins.zoom.options.x.scale.domain(curDomain);
         chart.update();
     }
@@ -347,7 +347,7 @@ function scrollChart() {
 function playPause() {
     if (playing == -1) {
         maxValue = dataFast[dataFast.length-1].x; // little hack todo more proper.
-        playing = setInterval(scrollChart, 1);
+        playing = setInterval(scrollChart, 10);
         document.getElementById('playpause-btn').innerHTML = 'Pause';
     } else {
         clearInterval(playing);
