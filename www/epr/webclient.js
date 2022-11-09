@@ -454,12 +454,12 @@ bigpage.addEventListener('dblclick', function (e) {
 
 function sanitiseX(arr, newArr) {
     let sanOffset = 0;
-    let largestNow = 0;
+    let largestNow = -1;
     for (let entry of newArr) {
         let x = entry.x + sanOffset;
         if (x > largestNow) largestNow = x;
         else {
-            sanOffset = -x + 2 + sanOffset;
+            sanOffset = -x + 2 + largestNow;
             x = x + sanOffset;
             largestNow = x;
         }
