@@ -337,8 +337,8 @@ let scaleFactor = 1;
 function scrollChart() {
     let curDomain = chart.plugins.zoom.options.x.scale.domain();
     if (curDomain[1] < maxValue) {
-        curDomain[0]+= scaleFActor;
-        curDomain[1]+= scaleFActor;
+        curDomain[0]+= scaleFactor;
+        curDomain[1]+= scaleFactor;
         chart.plugins.zoom.options.x.scale.domain(curDomain);
         chart.update();
     }
