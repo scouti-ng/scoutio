@@ -483,7 +483,8 @@ bigpage.addEventListener('contextmenu', function (e) {
     if (lastX) {
         e.preventDefault();
         let name = prompt('Enter event name');
-        events.push({x: lastX, name: name});
+        events.push({x: lastX, name: `start[${name}]`});
+        events.push({x: lastX + 1000, name: `end[${name}]`});
         chart.update();
     }
 });
