@@ -457,7 +457,13 @@ function loadGraphFile(file) {
     fr.onload=function() {
         let obj = JSON.parse(fr.result);
         // Release stress on callstack:
-        for (let entry of obj.dataFast)  dataFast.push(entry);
+        let largestNow = 0;
+        for (let entry of obj.dataFast)  {
+            // Sanity check.
+            if (entry.x > largestNow) largestNow = entry.x;
+            else alert(`Current x={${entry.x}} is smaller than max ${largestNow}???`)
+            dataFast.push(entry);
+        }
         for (let entry of obj.dataSlow)  dataSlow.push(entry);
         for (let entry of obj.dataFast2) dataFast2.push(entry);
         for (let entry of obj.dataSlow2) dataSlow2.push(entry);
