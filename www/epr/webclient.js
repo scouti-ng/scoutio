@@ -336,8 +336,9 @@ let maxValue = -1;
 function scrollChart() {
     let curDomain = chart.plugins.zoom.options.x.scale.domain();
     if (curDomain[1] < maxValue) {
-        curDomain[0]++;
-        curDomain[1]++;
+        let scaleFActor = document.getElementById('nuttelozeslider').value / 50;
+        curDomain[0]+= scaleFActor;
+        curDomain[1]+= scaleFActor;
         chart.plugins.zoom.options.x.scale.domain(curDomain);
         chart.update();
     }
