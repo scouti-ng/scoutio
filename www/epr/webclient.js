@@ -478,14 +478,28 @@ function highlight(e) {
 function unhighlight(e) {
     bigpage.classList.remove('highlight')
 }
-// prompt event on dubble click.
+// prompt event on right click.
 bigpage.addEventListener('contextmenu', function (e) {
     if (lastX) {
         e.preventDefault();
-        let name = prompt('Enter event name');
-        events.push({x: lastX, name: `start[${name}]`});
-        events.push({x: lastX + 1000, name: `end[${name}]`});
-        chart.update();
+        if (closeEventIndex == -1) {
+            let name = prompt('Enter event name');
+            events.push({x: lastX, name: `start[${name}]`});
+            events.push({x: lastX + 1000, name: `end[${name}]`});
+            chart.update();
+        } else {
+            if (window.confirm(`Rename event ${events[closeEventIndex].name}?`)) {
+                let newName = prompt('Enter name:');
+                let oldName = events[closeEventIndex].name;
+                if (oldName.contains('start')) events[closeEventIndex].name = `start[${newName}]`
+                else if (oldName.contains('end')) events[closeEventIndex].name = `end[${newName}]`
+                else events[closeEventIndex].name = newName;
+                chart.update();
+            } else if (window.confirm(`Delete event ${events[closeEventIndex].name}?`)){
+                events.splice(closeEventIndex, 1);
+            }
+        }
+
     }
 });
 ;['dragenter', 'dragover'].forEach(eventName => {
