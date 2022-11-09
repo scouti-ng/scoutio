@@ -333,18 +333,20 @@ document.getElementById('follow-btn').addEventListener('click', function () {
 let playing = -1;
 let maxValue = -1;
 
+function scrollChart() {
+    let curDomain = chart.plugins.zoom.options.x.scale.domain();
+    if (curDomain[2] < maxValue) {
+        curDomain[0]++;
+        curDomain[1]++;
+        chart.plugins.zoom.options.x.scale.domain(curDomain);
+        chart.update();
+    }
+}
+
 document.getElementById('play-btn').addEventListener('click', function () {
     if (playing == -1) {
         maxValue = dataFast[dataFast.length-1].x; // little hack todo more proper.
-        playing = setInterval(() => {
-            let curDomain = chart.plugins.zoom.options.x.scale.domain();
-            if (curDomain[2] < maxValue) {
-                curDomain[0]++;
-                curDomain[1]++;
-                chart.plugins.zoom.options.x.scale.domain(curDomain);
-                chart.update();
-            }
-        }, 1);
+        playing = setInterval(scrollChart, 1);
     }
 });
 
