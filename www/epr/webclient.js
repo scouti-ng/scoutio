@@ -309,6 +309,10 @@ let lastX;
 function labelHack() {
     chart.nearestPoint.qpoints.forEach((value, key) => {
         lastX = value.x;
+        let rrrr = document.querySelector("#chart").shadowRoot.querySelector("chart-legend");
+        rrrr.style.right = '';
+        rrrr.style.left = '10px';
+        
         document.querySelector("#chart").shadowRoot.querySelector("chart-legend").shadowRoot.querySelectorAll('.visible').forEach(label => {
             if (label.querySelector('label').innerText == key.name) {
                 let valMeter = label.querySelector('.valuemeter');
@@ -332,11 +336,12 @@ document.getElementById('follow-btn').addEventListener('click', function () {
 
 let playing = -1;
 let maxValue = -1;
+let minValue = 0;
 let scaleFactor = 1;
 
 function scrollChart() {
     let curDomain = chart.plugins.zoom.options.x.scale.domain();
-    if (curDomain[1] < maxValue) {
+    if (scaleFactor > 0 && curDomain[1] < maxValue || scaleFactor < 0 && curDomain[1] > minValue) {
         curDomain[0]+= scaleFactor*10;
         curDomain[1]+= scaleFactor*10;
         chart.plugins.zoom.options.x.scale.domain(curDomain);
@@ -347,6 +352,7 @@ function scrollChart() {
 function playPause() {
     if (playing == -1) {
         maxValue = dataFast[dataFast.length-1].x; // little hack todo more proper.
+        minValue = dataFast[0].x; // little hack todo more proper.
         playing = setInterval(scrollChart, 10);
         document.getElementById('playpause-btn').innerHTML = 'Pause';
     } else {
