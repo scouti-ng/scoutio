@@ -304,14 +304,33 @@ const chart = new TimeChart(el, {
     }
 });
 
+let rrrr = document.querySelector("#chart").shadowRoot.querySelector("chart-legend");
+rrrr.style.right = '';
+rrrr.style.left = '10px';
+
 let lastX;
+let closeEventIndex = -1;
+
+function findNearestEvent() {
+    for(let ei = 0; ei < events.length; ei++) {
+        let e = events[ei];
+        if (e.x - 100 < lastX && lastX < e.x + 100) {
+            closeEventIndex = ei;
+            document.body.style.cursor = 'row-resize';
+            return;
+        }
+    }
+    document.body.style.cursor = 'pointer';
+    closeEventIndex = -1;
+}
+
 // Ultimate beun. See the grpah text thingies.
 function labelHack() {
     chart.nearestPoint.qpoints.forEach((value, key) => {
         lastX = value.x;
-        let rrrr = document.querySelector("#chart").shadowRoot.querySelector("chart-legend");
-        rrrr.style.right = '';
-        rrrr.style.left = '10px';
+        findNearestEvent();
+
+
         
         document.querySelector("#chart").shadowRoot.querySelector("chart-legend").shadowRoot.querySelectorAll('.visible').forEach(label => {
             if (label.querySelector('label').innerText == key.name) {
