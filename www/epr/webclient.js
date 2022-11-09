@@ -339,8 +339,8 @@ document.getElementById('play-btn').addEventListener('click', function () {
         playing = setInterval(() => {
             let curDomain = chart.plugins.zoom.options.x.scale.domain();
             if (curDomain[2] < maxValue) {
+                curDomain[0]++;
                 curDomain[1]++;
-                curDomain[2]++;
                 chart.plugins.zoom.options.x.scale.domain(curDomain);
                 chart.update();
             }
