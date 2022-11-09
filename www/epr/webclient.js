@@ -343,16 +343,17 @@ function scrollChart() {
     }
 }
 
-document.getElementById('play-btn').addEventListener('click', function () {
+
+document.getElementById('playpause-btn').addEventListener('click', function () {
     if (playing == -1) {
         maxValue = dataFast[dataFast.length-1].x; // little hack todo more proper.
         playing = setInterval(scrollChart, 1);
+        document.getElementById('playpause-btn').innerHTML = 'Pause';
+    } else {
+        clearInterval(playing);
+        playing = -1;
+        document.getElementById('playpause-btn').innerHTML = 'Play';
     }
-});
-
-document.getElementById('pause-btn').addEventListener('click', function () {
-    clearInterval(playing);
-    playing = -1;
 });
 
 // var test;
