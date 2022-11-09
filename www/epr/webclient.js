@@ -344,8 +344,7 @@ function scrollChart() {
     }
 }
 
-
-document.getElementById('playpause-btn').addEventListener('click', function () {
+function playPause() {
     if (playing == -1) {
         maxValue = dataFast[dataFast.length-1].x; // little hack todo more proper.
         playing = setInterval(scrollChart, 1);
@@ -355,6 +354,10 @@ document.getElementById('playpause-btn').addEventListener('click', function () {
         playing = -1;
         document.getElementById('playpause-btn').innerHTML = 'Play';
     }
+}
+
+document.getElementById('playpause-btn').addEventListener('click', function () {
+    playPause();
 });
 
 document.getElementById('speed').addEventListener('change', function() {
@@ -498,6 +501,9 @@ document.onkeyup=function(e){
     if (e.keyCode == 190) {
         scaleFactor += 0.25;
         document.getElementById('speed').value = scaleFactor;
+    }
+    if (e.keyCode == 32) {
+        playPause();
     }
 }
 document.onkeydown=function(e){
