@@ -316,13 +316,26 @@ function findNearestEvent() {
         let e = events[ei];
         if (e.x - 100 < lastX && lastX < e.x + 100) {
             closeEventIndex = ei;
-            document.body.style.cursor = 'row-resize';
+            document.body.style.cursor = 'column-resize';
             return;
         }
     }
-    document.body.style.cursor = 'pointer';
+    document.body.style.cursor = 'auto';
     closeEventIndex = -1;
 }
+
+let draggingEvent = -1;
+document.addEventListener('mousedown', function(event) {
+    if (event.button == 0) draggingEvent = closeEventIndex;
+});
+
+document.addEventListener('mouseup', function(event) {
+    if (event.button == 0 && draggingEvent != -1) {
+        event[draggingEvent].x = lastX;
+        chart.update();
+        draggingEvent = -1;
+    }
+});
 
 // Ultimate beun. See the grpah text thingies.
 function labelHack() {
