@@ -274,6 +274,7 @@ const chart = new TimeChart(el, {
             data: dataSlow,
             lineWidth: 2,
             color: 'red',
+            visible: false
         },
         {
             name: 'Fast2',
@@ -285,6 +286,7 @@ const chart = new TimeChart(el, {
             data: dataSlow2,
             lineWidth: 2,
             color: 'green',
+            visible: false
         },
     ],
     xRange: { min: 0, max: 20 * 1000 },
@@ -307,7 +309,9 @@ const chart = new TimeChart(el, {
 
 let rrrr = document.querySelector("#chart").shadowRoot.querySelector("chart-legend");
 rrrr.style.right = '';
+rrrr.style.top = '';
 rrrr.style.left = '10px';
+rrrr.style.bottom = '10px';
 
 let lastX;
 let closeEventIndex = -1;
@@ -406,6 +410,23 @@ document.getElementById('speed').addEventListener('change', function() {
     scaleFactor = this.value;
 });
 
+let showSlow = false;
+document.getElementById('slowtoggle-btn').addEventListener('click', function() {
+    if (showSlow) {
+        chart.options.series.forEach(data => {
+            if (data.name.includes('Slow')) data.visible = false;
+        })
+        document.getElementById('slowtoggle-btn').innerHTML = 'Show Slow';
+        showSlow = false;
+    } else {
+        chart.options.series.forEach(data => {
+            if (data.name.includes('Slow')) data.visible = true;
+        })
+        document.getElementById('slowtoggle-btn').innerHTML = 'Hide Slow';
+        showSlow = true;
+    }
+});
+
 // var test;
 document.getElementById('upload-btn').addEventListener('click', function () {
     let file = document.getElementById("ota-file").files[0];
@@ -490,11 +511,13 @@ bigpage.addEventListener('contextmenu', function (e) {
         } else {
             if (window.confirm(`Rename event ${events[closeEventIndex].name}?`)) {
                 let newName = prompt('Enter name:');
-                let oldName = events[closeEventIndex].name;
-                if (oldName.includes('start')) events[closeEventIndex].name = `start[${newName}]`;
-                else if (oldName.includes('end')) events[closeEventIndex].name = `end[${newName}]`;
-                else events[closeEventIndex].name = newName;
-                chart.update();
+                if (newName) {
+                    let oldName = events[closeEventIndex].name;
+                    if (oldName.includes('start')) events[closeEventIndex].name = `start[${newName}]`;
+                    else if (oldName.includes('end')) events[closeEventIndex].name = `end[${newName}]`;
+                    else events[closeEventIndex].name = newName;
+                    chart.update();
+                }
             } else if (window.confirm(`Delete event ${events[closeEventIndex].name}?`)){
                 events.splice(closeEventIndex, 1);
                 chart.update();
