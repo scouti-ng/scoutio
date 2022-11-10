@@ -415,15 +415,17 @@ document.getElementById('slowtoggle-btn').addEventListener('click', function() {
     if (showSlow) {
         chart.options.series.forEach(data => {
             if (data.name.includes('Slow')) data.visible = false;
-        })
+        });
         document.getElementById('slowtoggle-btn').innerHTML = 'Show Slow';
         showSlow = false;
+        chart.update();
     } else {
         chart.options.series.forEach(data => {
             if (data.name.includes('Slow')) data.visible = true;
         })
         document.getElementById('slowtoggle-btn').innerHTML = 'Hide Slow';
         showSlow = true;
+        chart.update();
     }
 });
 
