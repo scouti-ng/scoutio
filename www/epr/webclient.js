@@ -429,6 +429,16 @@ document.getElementById('slowtoggle-btn').addEventListener('click', function() {
     }
 });
 
+document.getElementById('legendtoggle-btn').addEventListener('click', function() {
+    if (rrrr.style.visibility == 'hidden') {
+        rrrr.style.visibility = 'visible';
+        document.getElementById('legendtoggle-btn').innerHTML = 'Hide Legend';
+    } else {
+        rrrr.style.visibility = 'hidden';
+        document.getElementById('legendtoggle-btn').innerHTML = 'Show Legend';
+    }
+});
+
 // var test;
 document.getElementById('upload-btn').addEventListener('click', function () {
     let file = document.getElementById("ota-file").files[0];
