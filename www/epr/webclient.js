@@ -353,8 +353,18 @@ function fixNumberZero(num) {
     if(num < 10) return '0'+num;
     else return ''+num;
 }
+function formatDate(n) {
+    if (n.getUTCHours() > 12){
+        n.setUTCHours(23-n.getUTCHours()); 
+        n.setUTCMinutes(59-n.getUTCMinutes()); 
+        n.setUTCSeconds(59-n.getUTCSeconds()); 
+        n.setUTCMilliseconds(999-n.getUTCMilliseconds());
+    };
+    return n;
+}
+
 chart.model.updated.on(() => {
-    let middleDate = new Date(zeroTime + getChartMiddleTime());
+    let middleDate = formatDate(new Date(zeroTime + getChartMiddleTime()));
     redTimer.innerHTML = `${fixNumberZero(middleDate.getUTCHours())}:${fixNumberZero(middleDate.getUTCMinutes())}:${fixNumberZero(middleDate.getUTCSeconds())}`;
 });
 
