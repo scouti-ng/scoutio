@@ -355,7 +355,7 @@ function fixNumberZero(num) {
 }
 chart.model.updated.on(() => {
     let middleDate = new Date(zeroTime + getChartMiddleTime());
-    redTimer.innerHTML = `${fixNumberZero(middleDate.getUTCHours)}:${fixNumberZero(middleDate.getUTCMinutes)}:${fixNumberZero(middleDate.getUTCSeconds)}`;
+    redTimer.innerHTML = `${fixNumberZero(middleDate.getUTCHours())}:${fixNumberZero(middleDate.getUTCMinutes())}:${fixNumberZero(middleDate.getUTCSeconds())}`;
 });
 
 
@@ -577,7 +577,7 @@ bigpage.addEventListener('contextmenu', function (e) {
         e.preventDefault();
         if (closeEventIndex == -1) {
             let name = prompt('Enter event name');
-            if (name.trim()) {
+            if (name) {
                 events.push({x: lastX, name: `start[${name}]`});
                 events.push({x: lastX + 1000, name: `end[${name}]`});
             }
