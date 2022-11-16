@@ -47,6 +47,9 @@ module.exports = (router, rnio) => {
     // Server chart.js
     router.use('/chart.js', rnio.serve(__dirname + '/chart.js', {cache: true, noFilename: true}));
 
+    // Serve scalehack file:
+    router.use('/d3scalehack.js', rnio.serve(__dirname + '/d3scalehack.js', {cache: true, noFilename: true}));
+
     router.all('/', (params, client) => {
         if (params.pwd === 'KaterCiller') {
             return `<html>
@@ -59,7 +62,7 @@ module.exports = (router, rnio) => {
                     <script src="https://d3js.org/d3-interpolate.v2.min.js"></script>
                     <script src="https://d3js.org/d3-time.v2.min.js"></script>
                     <script src="https://d3js.org/d3-time-format.v3.min.js"></script>
-                    <script src="https://d3js.org/d3-scale.v3.min.js"></script>
+                    <script src="/epr/d3scalehack.js"></script>
                     <script src="https://d3js.org/d3-selection.v2.min.js"></script>
                     <script src="https://d3js.org/d3-axis.v2.min.js"></script>
                     <script src="/epr/chart.js"></script>

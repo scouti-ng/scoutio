@@ -298,6 +298,7 @@ const chart = new TimeChart(el, {
         }
     ],
     xRange: { min: 0, max: 20 * 1000 },
+    xScaleType: d3.scaleUtc,
     realTime: true,
     zoom: {
         x: {
@@ -431,7 +432,7 @@ function scrollChart() {
 function playPause() {
     if (playing == -1) {
         if (invis.length > 1) {
-            maxValue = invis[dataFast.length-1].x; // little hack todo more proper.
+            maxValue = invis[invis.length-1].x; // little hack todo more proper.
             minValue = invis[0].x; // little hack todo more proper.
         } else {
             maxValue = dataFast[dataFast.length-1].x; // little hack todo more proper.
@@ -445,6 +446,11 @@ function playPause() {
         document.getElementById('playpause-btn').innerHTML = 'Play';
     }
 }
+
+document.getElementById('zero-btn').addEventListener('click', function() {
+    chart.options.baseTime = -getChartMiddleTime();
+    chart.update();
+});
 
 document.getElementById('playpause-btn').addEventListener('click', function () {
     playPause();
