@@ -261,6 +261,7 @@ const dataSlow = [];
 const dataFast2 = [];
 const dataSlow2 = [];
 const events = [];
+const invis = [];
 const chart = new TimeChart(el, {
     baseTime: 0,
     series: [
@@ -288,6 +289,13 @@ const chart = new TimeChart(el, {
             color: 'green',
             visible: false
         },
+        {
+            name: 'invis',
+            data: invis,
+            lineWidth: 2,
+            color: 'purple',
+            visible: 'false'
+        }
     ],
     xRange: { min: 0, max: 20 * 1000 },
     realTime: true,
@@ -589,18 +597,16 @@ function loadGraphFile(file) {
         sanitiseX(dataFast, obj.dataFast);
         sanitiseX(dataFast2, obj.dataFast2);
         sanitiseX(events, obj.events);
-
-
-        // for (let entry of obj.dataSlow)  dataSlow.push(entry);
-        // for (let entry of obj.dataFast2) dataFast2.push(entry);
-        // for (let entry of obj.dataSlow2) dataSlow2.push(entry);
-        // for (let entry of obj.events)    events.push(entry);
-
-        // dataFast.push(...obj.dataFast);
-        // dataSlow.push(...obj.dataSlow);
-        // dataFast2.push(...obj.dataFast2);
-        // dataSlow2.push(...obj.dataSlow2);
-        // events.push(...obj.events);
+        // Now we do a really interesting hack.
+        // We add an invisisble line in the graph so we can go halfway past the start and end.
+        // This way the red line in the middle of the graph will make more sense and can be synced with the video later on.
+        if (dataFast.length > 1) {
+            let startTime = dataFast[0].x
+            let endTime = dataFast[dataFast.length-1].x;
+            let timeLength = endTime - startTime;
+            invis.push({x: startTime - timeLength / 2, y: 0});
+            invis.push({x: endTime + timeLength / 2, y: 0});
+        }
         chart.update();
     }
     fr.readAsText(file);
