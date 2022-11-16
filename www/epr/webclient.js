@@ -354,18 +354,20 @@ function fixNumberZero(num) {
     else return ''+num;
 }
 function formatDate(n) {
+    let sign = '+';
     if (n.getUTCHours() > 12){
         n.setUTCHours(23-n.getUTCHours()); 
         n.setUTCMinutes(59-n.getUTCMinutes()); 
         n.setUTCSeconds(59-n.getUTCSeconds()); 
         n.setUTCMilliseconds(999-n.getUTCMilliseconds());
+        sign = '-';
     };
-    return n;
+    return {date: n, sign};
 }
 
 chart.model.updated.on(() => {
-    let middleDate = formatDate(new Date(zeroTime + getChartMiddleTime()));
-    redTimer.innerHTML = `${fixNumberZero(middleDate.getUTCHours())}:${fixNumberZero(middleDate.getUTCMinutes())}:${fixNumberZero(middleDate.getUTCSeconds())}`;
+    let md = formatDate(new Date(zeroTime + getChartMiddleTime()));
+    redTimer.innerHTML = `${md.sign}${fixNumberZero(md.date.getUTCHours())}:${fixNumberZero(md.date.getUTCMinutes())}:${fixNumberZero(md.date.getUTCSeconds())}`;
 });
 
 
