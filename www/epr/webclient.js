@@ -294,7 +294,7 @@ const chart = new TimeChart(el, {
             data: invis,
             lineWidth: 2,
             color: 'purple',
-            visible: 'false'
+            visible: false
         }
     ],
     xRange: { min: 0, max: 20 * 1000 },
@@ -324,14 +324,30 @@ rrrr.style.bottom = '25px';
 
 // add redline thing hack
 let redLine = document.createElement('div');
-redLine.style.display = 'block';
+redLine.style.display = 'flex';
 redLine.style.margin = 'auto';
 redLine.style.width = '2px';
 redLine.style.height = '100%';
 redLine.style.zIndex = '90';
 redLine.style.backgroundColor = 'red';
 redLine.style.position = 'relative';
+redLine.style.justifyContent = 'center';
+redLine.style.alignItems = 'end';
+// The time of the redline.
+let redTimer = document.createElement('div');
+redTimer.id = 'redTimer';
+redTimer.style.height = '1.2em';
+redTimer.style.padding = '0.2em';
+redTimer.style.marginBottom = '0.5em';
+redTimer.style.color = 'red';
+redTimer.style.backgroundColor = 'black';
+redLine.appendChild(redTimer);
 document.querySelector("#chart").shadowRoot.querySelector("div").appendChild(redLine);
+// Always keep this timer up to date:
+chart.model.updated.on(() => {
+    redTimer.innerHTML = getChartMiddleTime();
+});
+
 
 let lastX;
 let closeEventIndex = -1;
@@ -414,8 +430,13 @@ function scrollChart() {
 
 function playPause() {
     if (playing == -1) {
-        maxValue = dataFast[dataFast.length-1].x; // little hack todo more proper.
-        minValue = dataFast[0].x; // little hack todo more proper.
+        if (invis.length > 1) {
+            maxValue = invis[dataFast.length-1].x; // little hack todo more proper.
+            minValue = invis[0].x; // little hack todo more proper.
+        } else {
+            maxValue = dataFast[dataFast.length-1].x; // little hack todo more proper.
+            minValue = dataFast[0].x; // little hack todo more proper.
+        }
         playing = setInterval(scrollChart, 10);
         document.getElementById('playpause-btn').innerHTML = 'Pause';
     } else {
@@ -540,8 +561,10 @@ bigpage.addEventListener('contextmenu', function (e) {
         e.preventDefault();
         if (closeEventIndex == -1) {
             let name = prompt('Enter event name');
-            events.push({x: lastX, name: `start[${name}]`});
-            events.push({x: lastX + 1000, name: `end[${name}]`});
+            if (name.trim()) {
+                events.push({x: lastX, name: `start[${name}]`});
+                events.push({x: lastX + 1000, name: `end[${name}]`});
+            }
             chart.update();
         } else {
             if (window.confirm(`Rename event ${events[closeEventIndex].name}?`)) {
