@@ -307,11 +307,23 @@ const chart = new TimeChart(el, {
     }
 });
 
+// reposition legend hack
 let rrrr = document.querySelector("#chart").shadowRoot.querySelector("chart-legend");
 rrrr.style.right = '';
 rrrr.style.top = '';
-rrrr.style.left = '10px';
-rrrr.style.bottom = '10px';
+rrrr.style.left = '50px';
+rrrr.style.bottom = '25px';
+
+// add redline thing hack
+let redLine = document.createElement('div');
+redLine.style.display = 'block';
+redLine.style.margin = 'auto';
+redLine.style.width = '2px';
+redLine.style.height = '100%';
+redLine.style.zIndex = '90';
+redLine.style.backgroundColor = 'red';
+redLine.style.position = 'relative';
+document.querySelector("#chart").shadowRoot.querySelector("div").appendChild(redLine);
 
 let lastX;
 let closeEventIndex = -1;
@@ -350,8 +362,6 @@ function labelHack() {
     chart.nearestPoint.qpoints.forEach((value, key) => {
         lastX = value.x;
         findNearestEvent();
-
-
         
         document.querySelector("#chart").shadowRoot.querySelector("chart-legend").shadowRoot.querySelectorAll('.visible').forEach(label => {
             if (label.querySelector('label').innerText == key.name) {
@@ -369,6 +379,11 @@ function labelHack() {
     });
 }
 chart.nearestPoint.updated.on(labelHack);
+
+function getChartMiddleTime() {
+    let curDomain = chart.plugins.zoom.options.x.scale.domain();
+    return (curDomain[1] - curDomain[0])/2 + curDomain[0];
+}
 
 document.getElementById('follow-btn').addEventListener('click', function () {
     chart.options.realTime = true;
