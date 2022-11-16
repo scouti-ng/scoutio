@@ -316,6 +316,9 @@ const chart = new TimeChart(el, {
     }
 });
 
+// zerotime
+let zeroTime = 0;
+
 // reposition legend hack
 let rrrr = document.querySelector("#chart").shadowRoot.querySelector("chart-legend");
 rrrr.style.right = '';
@@ -342,11 +345,17 @@ redTimer.style.padding = '0.2em';
 redTimer.style.marginBottom = '0.5em';
 redTimer.style.color = 'red';
 redTimer.style.backgroundColor = 'black';
+redTimer.style.fontFamily = 'monospace';
 redLine.appendChild(redTimer);
 document.querySelector("#chart").shadowRoot.querySelector("div").appendChild(redLine);
 // Always keep this timer up to date:
+function fixNumberZero(num) {
+    if(num < 10) return '0'+num;
+    else return ''+num;
+}
 chart.model.updated.on(() => {
-    redTimer.innerHTML = getChartMiddleTime();
+    let middleDate = new Date(zeroTime + getChartMiddleTime());
+    redTimer.innerHTML = `${fixNumberZero(middleDate.getUTCHours)}:${fixNumberZero(middleDate.getUTCMinutes)}:${fixNumberZero(middleDate.getUTCSeconds)}`;
 });
 
 
@@ -448,7 +457,8 @@ function playPause() {
 }
 
 document.getElementById('zero-btn').addEventListener('click', function() {
-    chart.options.baseTime = -getChartMiddleTime();
+    zeroTime = -getChartMiddleTime();
+    chart.options.baseTime = zeroTime;
     chart.update();
 });
 
