@@ -255,6 +255,12 @@ module.exports = (router, rnio) => {
         rnio.subs(`tree-${params.code}`).obj({type: 'shock', body: params.pw});
     });
 
+    // charge tree:
+    router.ws('/treeshock', (params, client) => {
+        if (!client.props.epr) throw [403, 'No permission!'];
+        rnio.subs(`tree-${params.code}`).obj({type: 'charge'});
+    });
+
     // Set interval to shock tree.
     router.ws('/shockbo', (params, client) => {
         if (!client.props.epr) throw [403, 'No permission!'];

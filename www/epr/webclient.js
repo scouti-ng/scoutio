@@ -123,6 +123,14 @@ registerHandler('trees', (trees) => {
         shockbtn.classList.add('shockbtn');
         treebar.appendChild(shockbtn);
 
+        let chrgbtn = document.createElement('button');
+        chrgbtn.onclick = function() {
+            chargeTree(treecode);
+        };
+        chrgbtn.innerText = `Charge ${trees[treecode].alias}`;
+        chrgbtn.classList.add('chrgbtn');
+        treebar.appendChild(chrgbtn);
+
         document.getElementById('trees').appendChild(treebar);
     }
 
@@ -199,6 +207,11 @@ function toggleCamLed(code) {
 // Toggle led on tree
 function shockTree(code, pw) {
     rpc('/epr/treeshock', {code, pw});
+}
+
+// Toggle tree charging
+function chargeTree(code) {
+    rpc('/epr/treecharge', {code});
 }
 
 // Toggle an set interval on shocking.
