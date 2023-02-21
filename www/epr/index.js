@@ -256,7 +256,7 @@ module.exports = (router, rnio) => {
     });
 
     // charge tree:
-    router.ws('/treeshock', (params, client) => {
+    router.ws('/treecharge', (params, client) => {
         if (!client.props.epr) throw [403, 'No permission!'];
         rnio.subs(`tree-${params.code}`).obj({type: 'charge'});
     });
