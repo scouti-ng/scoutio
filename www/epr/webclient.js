@@ -122,6 +122,7 @@ registerHandler('trees', (trees) => {
         if (trees[treecode].truT !== undefined && trees[treecode].truT > 0) {
             trUT.value = trees[treecode].truT;
         }
+        treebar.appendChild(trUT);
         let trLT = document.createElement('input');
         trLT.type = 'number';
         trLT.placeholder = 'trLT';
