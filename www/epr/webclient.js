@@ -77,22 +77,87 @@ registerHandler('trees', (trees) => {
         treebar.id = `tree-${treecode}`;
         let treetext = document.createElement('p');
         treetext.id = `treetxt-${treecode}`;
-        treetext.innerText = `Tree ${trees[treecode].alias}: [${trees[treecode].online ? 'ONLINE': 'OFFLINE?'}]`;
+        treetext.innerText = `Tree ${trees[treecode].alias}: [${trees[treecode].online ? 'ONLINE': 'OFLINE'}]`;
         treebar.appendChild(treetext);
         let togglebtn = document.createElement('button');
         togglebtn.onclick = function() {
             toggleLed(treecode);
         };
-        togglebtn.innerText = 'Toggle';
+        togglebtn.innerText = 'Measure';
         treebar.appendChild(togglebtn);
 
         let touchrbtn = document.createElement('button');
         touchrbtn.onclick = function() {
             touchResetTree(treecode);
         };
-        touchrbtn.innerText = `Touch Reset`;
+        touchrbtn.innerText = `RelResets`;
         touchrbtn.classList.add('touchrbtn');
         treebar.appendChild(touchrbtn);
+
+        let pulseWidthFld = document.createElement('input');
+        pulseWidthFld.type = 'number';
+        pulseWidthFld.value = 500;
+        treebar.appendChild(pulseWidthFld);
+
+        let shockbtn = document.createElement('button');
+        shockbtn.onclick = function() {
+            shockTree(treecode, pulseWidthFld.value);
+        };
+        shockbtn.innerText = `SINGLE SHOCK`;
+        shockbtn.classList.add('shockbtn');
+        treebar.appendChild(shockbtn);
+
+        let chrgbtn = document.createElement('button');
+        chrgbtn.onclick = function() {
+            chargeTree(treecode);
+        };
+        chrgbtn.innerText = `ChargeMode`;
+        chrgbtn.classList.add('chrgbtn');
+        treebar.appendChild(chrgbtn);
+
+        // thresholds
+        let trUT = document.createElement('input');
+        trUT.type = 'number';
+        trUT.placeholder = 'trUT';
+        if (trees[treecode].truT !== undefined && trees[treecode].truT > 0) {
+            trUT.value = trees[treecode].truT;
+        }
+        let trLT = document.createElement('input');
+        trLT.type = 'number';
+        trLT.placeholder = 'trLT';
+        if (trees[treecode].trlT !== undefined && trees[treecode].trlT > 0) {
+            trLT.value = trees[treecode].truT;
+        }
+        treebar.appendChild(trLT);
+        let trUB = document.createElement('input');
+        trUB.type = 'number';
+        trUB.placeholder = 'trUB';
+        if (trees[treecode].truB !== undefined && trees[treecode].truB > 0) {
+            trUB.value = trees[treecode].truB;
+        }
+        treebar.appendChild(trUB);
+        let trLB = document.createElement('input');
+        trLB.type = 'number';
+        trLB.placeholder = 'trLB';
+        if (trees[treecode].trlB !== undefined && trees[treecode].trlB > 0) {
+            trLB.value = trees[treecode].truB;
+        }
+        treebar.appendChild(trLB);
+        let tCYC = document.createElement('input');
+        tCYC.type = 'number';
+        tCYC.placeholder = 'tCYC';
+        if (trees[treecode].tcyc !== undefined && trees[treecode].tcyc > 0) {
+            tCYC.value = trees[treecode].truB;
+        }
+        treebar.appendChild(tCYC);
+        let autoBtn = document.createElement('button');
+        autoBtn.onclick = function() {
+            setAutoShock(treecode, !trees[treecode].autoshocking, trUT.value, trLT.value, trUB.value, trLB.value, tCYC.value, pulseWidthFld.value);
+        };
+        autoBtn.innerText = `AUTO SHOCKING ${trees[treecode].autoshocking ? 'OF' : 'ON'}`;
+        autoBtn.classList.add('shockbtn');
+        treebar.appendChild(autoBtn);
+
 
         let intervalFld = document.createElement('input');
         intervalFld.type = 'number';
@@ -102,34 +167,13 @@ registerHandler('trees', (trees) => {
         }
         treebar.appendChild(intervalFld);
 
-        let pulseWidthFld = document.createElement('input');
-        pulseWidthFld.type = 'number';
-        pulseWidthFld.value = 500;
-        treebar.appendChild(pulseWidthFld);
-
         let intervalbtn = document.createElement('button');
         intervalbtn.onclick = function() {
             setShockBo(treecode, intervalFld.value, !(trees[treecode].shockbo !== undefined && trees[treecode].shockbo > 0), pulseWidthFld.value);
         };
-        intervalbtn.innerText = `TURN SHOCKING $${trees[treecode].alias} ${trees[treecode].shockbo ? 'OFF' : 'ON'}`;
+        intervalbtn.innerText = `TURN SHOCKING $${trees[treecode].alias} ${trees[treecode].shockbo ? 'OF' : 'ON'}`;
         intervalbtn.classList.add('shockbtn');
         treebar.appendChild(intervalbtn);
-
-        let shockbtn = document.createElement('button');
-        shockbtn.onclick = function() {
-            shockTree(treecode, pulseWidthFld.value);
-        };
-        shockbtn.innerText = `SINGLE SHOCK ${trees[treecode].alias}`;
-        shockbtn.classList.add('shockbtn');
-        treebar.appendChild(shockbtn);
-
-        let chrgbtn = document.createElement('button');
-        chrgbtn.onclick = function() {
-            chargeTree(treecode);
-        };
-        chrgbtn.innerText = `Charge ${trees[treecode].alias}`;
-        chrgbtn.classList.add('chrgbtn');
-        treebar.appendChild(chrgbtn);
 
         document.getElementById('trees').appendChild(treebar);
     }
@@ -217,6 +261,11 @@ function chargeTree(code) {
 // Toggle an set interval on shocking.
 function setShockBo(code, interval, on, pw) {
     rpc('/epr/shockbo', {code, interval, on, pw});
+}
+
+// Toggle automagic shocking on or off.
+function setAutoShock(code, on, truT, trlT, truB, trlB, tcyc, pw) {
+    rpc('/epr/autoshock', {code, on, truT, trlT, truB, trlB, tcyc, pw});
 }
 
 function touchResetTree(code) {

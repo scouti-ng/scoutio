@@ -93,7 +93,7 @@ module.exports = (router, rnio) => {
                 </head>
                 <body id="bigpage">
                     <h1>EindeAdminPanel</h1>
-                    <h2>Proto 0.0.7 - khm</h2>
+                    <h2>Proto 0.1.0 - khm</h2>
                     Client Connection: <em><span id="constatus">Offline</span></em> Clients Online: <em><span id="conline">0</span></em> File loaded: <em><span id="fileloaded">nothing</span></em>
                     <div id="cams"></div>
                     <div id="trees"></div>
@@ -272,6 +272,23 @@ module.exports = (router, rnio) => {
         } else {
             trees[params.code].shockbo = undefined;
             clearInterval(treeTimers[params.code]);
+        }
+        updateTrees();
+    });
+
+    // Set auto shock.
+    router.ws('/autoshock', (params, client) => {
+        if (!client.props.epr) throw [403, 'No permission!'];
+        if (params.on && params.tcyc > 0) {
+            trees[params.code].autoshocking = true;
+            trees[params.code].truT = params.truT;
+            trees[params.code].trlT = params.trlT;
+            trees[params.code].truB = params.truB;
+            trees[params.code].trlB = params.trlB;
+            trees[params.code].tcyc = params.tcyc;
+            rnio.subs(`tree-${params.code}`).obj({type: 'autoshock', body: params});
+        } else {
+            trees[params.code].autoshocking = undefined;
         }
         updateTrees();
     });
