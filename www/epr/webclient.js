@@ -127,7 +127,7 @@ registerHandler('trees', (trees) => {
         trLT.type = 'number';
         trLT.placeholder = 'trLT';
         if (trees[treecode].trlT !== undefined && trees[treecode].trlT > 0) {
-            trLT.value = trees[treecode].truT;
+            trLT.value = trees[treecode].trlT;
         }
         treebar.appendChild(trLT);
         let trUB = document.createElement('input');
@@ -141,14 +141,14 @@ registerHandler('trees', (trees) => {
         trLB.type = 'number';
         trLB.placeholder = 'trLB';
         if (trees[treecode].trlB !== undefined && trees[treecode].trlB > 0) {
-            trLB.value = trees[treecode].truB;
+            trLB.value = trees[treecode].trlB;
         }
         treebar.appendChild(trLB);
         let tCYC = document.createElement('input');
         tCYC.type = 'number';
         tCYC.placeholder = 'tCYC';
         if (trees[treecode].tcyc !== undefined && trees[treecode].tcyc > 0) {
-            tCYC.value = trees[treecode].truB;
+            tCYC.value = trees[treecode].tcyc;
         }
         treebar.appendChild(tCYC);
         let autoBtn = document.createElement('button');

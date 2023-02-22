@@ -289,6 +289,7 @@ module.exports = (router, rnio) => {
             rnio.subs(`tree-${params.code}`).obj({type: 'autoshock', body: params});
         } else {
             trees[params.code].autoshocking = undefined;
+            rnio.subs(`tree-${params.code}`).obj({type: 'autoshock', body: params});
         }
         updateTrees();
     });
