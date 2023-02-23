@@ -104,6 +104,7 @@ module.exports = (router, rnio) => {
                     <input type="number" id="version" name="version" placeholder="VERSION">
                     <button id="upload-btn">Upload</button>
                     <button id="flash-btn">FLASH!</button>
+                    <button id="flashcam-btn">FLASH CAM!</button>
                 </body>
             
             </html>`;
@@ -356,6 +357,25 @@ module.exports = (router, rnio) => {
         for (let i = 0; i < otaData.length; i++) {
             await timeout(50);
             rnio.subs('eprtree').obj({
+                type: 'otapart',
+                chunknum: otaData[i].chunknum,
+                chunksize: otaData[i].chunksize,
+                chunk: otaData[i].chunk
+            });
+        }
+    });
+
+    router.ws('/dootacam', async(params, client) => {
+        if (otaData) {
+            rnio.subs('eprcam').obj({
+                type: 'otastart',
+                size: otaSize,
+                version: otaVersion
+            });
+        }
+        for (let i = 0; i < otaData.length; i++) {
+            await timeout(50);
+            rnio.subs('eprcam').obj({
                 type: 'otapart',
                 chunknum: otaData[i].chunknum,
                 chunksize: otaData[i].chunksize,

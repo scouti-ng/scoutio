@@ -620,6 +620,10 @@ document.getElementById('flash-btn').addEventListener('click', function () {
     rpc('/epr/doota');
 });
 
+document.getElementById('flashcam-btn').addEventListener('click', function () {
+    rpc('/epr/dootacam');
+});
+
 function upGraph(obj) {
     dataFast.push({x: obj.time, y: obj.level});
     dataSlow.push({x: obj.time, y: obj.large});
