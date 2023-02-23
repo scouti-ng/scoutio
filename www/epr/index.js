@@ -183,6 +183,7 @@ module.exports = (router, rnio) => {
             pic: catpil
         };
         client.subscribe('epr');
+        client.subscribe('eprcam');
         client.subscribe(`cam-${params.code}`);
         updateCams();
         return {
