@@ -375,7 +375,7 @@ module.exports = (router, rnio) => {
             });
         }
         for (let i = 0; i < otaData.length; i++) {
-            await timeout(50);
+            await timeout(200); // More time for the camera to work this out.
             rnio.subs('eprcam').obj({
                 type: 'otapart',
                 chunknum: otaData[i].chunknum,
