@@ -200,6 +200,14 @@ module.exports = (router, rnio) => {
         updateCams();// just broadcast everything lololol
     });
 
+    router.ws('/cambat', (params, client) => {
+        if (!client.props.epr) throw [403, 'No permission!'];
+        if (cams[client.props.code]) {
+            cams[client.props.code].level = params.level;
+            updateCams();// just broadcast everything lololol
+        }
+    });
+
     router.ws('/givealias', (params, client) => {
         if (!client.props.epr) throw [403, 'No permission!'];
         trees[params.code].alias = params.alias;

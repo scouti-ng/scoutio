@@ -188,7 +188,7 @@ registerHandler('cams', (cams) => {
         camsqr.className = 'camsqr';
         camsqr.id = `cam-${camcode}`;
         let camtext = document.createElement('p');
-        camtext.innerText = `Cam ${camcode}: [${cams[camcode].online ? 'ONLINE': 'OFFLINE?'}]`;
+        camtext.innerText = `Cam ${camcode}: [${cams[camcode].online ? 'ONLINE': 'OFLINE'}] Bat: [${cams[camcode].level}]`;
         camsqr.appendChild(camtext);
 
         let togglebtn = document.createElement('button');
