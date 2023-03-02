@@ -27,7 +27,7 @@ function connect() {
     };
 }
 
-let isAutoRanging = false;
+let isAutoRanging = true;
 
 function registerHandler(event, handler) {
     let handlers = eventHandlers.get(event);

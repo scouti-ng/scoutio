@@ -101,7 +101,7 @@ module.exports = (router, rnio) => {
                     <div id="chart" style="width: 100%; height: 500px;"></div>
                     <div id="chartTop" style="width: 100%; height: 500px;"></div>
                     <div id="chartBot" style="width: 100%; height: 500px;"></div>
-                    <button id="follow-btn">Follow Data</button><button id="autoranging">Turn Auto-Range OFF</button><input type="file" id="graph-file" name="graph-file" accept="application/json"><button id="load-btn">Load</button><button id="playpause-btn" style="width: 100px">Play</button> Speed: <input type="number" id="speed" min="-100" max="100" value="1"> Stepsize: <input type="number" id="stepsize" min="-100" max="100" value="0.25"><button id="slowtoggle-btn">Show Slow</button><button id="legendtoggle-btn">Show Legend</button><button id="zero-btn">ZERO</button><br/>
+                    <button id="follow-btn">Follow Data</button><button id="autoranging">Turn Auto-Range OF</button><input type="file" id="graph-file" name="graph-file" accept="application/json"><button id="load-btn">Load</button><button id="playpause-btn" style="width: 100px">Play</button> Speed: <input type="number" id="speed" min="-100" max="100" value="1"> Stepsize: <input type="number" id="stepsize" min="-100" max="100" value="0.25"><button id="slowtoggle-btn">Show Slow</button><button id="legendtoggle-btn">Show Legend</button><button id="zero-btn">ZERO</button><br/>
                     OTA-UPDATE: <input type="file" id="ota-file" name="ota-file" accept="application/octet-stream">
                     <input type="number" id="version" name="version" placeholder="VERSION">
                     <button id="upload-btn">Upload</button>
