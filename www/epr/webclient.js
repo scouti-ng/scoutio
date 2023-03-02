@@ -398,6 +398,7 @@ const chartTop = new TimeChart(elTop, {
             visible: false
         }
     ],
+    xRange: { min: 0, max: 20 * 1000 },
     xScaleType: d3.scaleUtc,
     realTime: true,
     zoom: {
@@ -428,6 +429,7 @@ const chartBot = new TimeChart(elBot, {
             visible: false
         }
     ],
+    xRange: { min: 0, max: 20 * 1000 },
     xScaleType: d3.scaleUtc,
     realTime: true,
     zoom: {
