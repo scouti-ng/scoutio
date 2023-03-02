@@ -580,6 +580,25 @@ function scrollChart() {
     }
 }
 
+function scaleTopGraphOrSomething() {
+    let curDomain = chart.plugins.zoom.options.x.scale.domain();
+    let avg = 0;
+    let am = 0;
+    let cum = 0;
+    let min = Infinity;
+    let max = -Infinity;
+    for (let d of dataFast) {
+        if (d.x > curDomain[0] && d.x < curDomain[1]) {
+            am++;
+            cum += d.y;
+            if (d.y < min) min = d.y;
+            if (d.y > max) max = d.y;
+        }
+    }
+    avg = cum/am;
+    chart.plugins.zoom.options.y.scale.domain([min, max]);
+}
+
 function playPause() {
     if (playing == -1) {
         if (invis.length > 1) {
