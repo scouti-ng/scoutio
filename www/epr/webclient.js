@@ -559,6 +559,8 @@ function getChartMiddleTime() {
 
 document.getElementById('follow-btn').addEventListener('click', function () {
     chart.options.realTime = true;
+    chartBot.options.realTime = true;
+    chartTop.options.realTime = true;
 });
 
 let playing = -1;
