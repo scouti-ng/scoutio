@@ -319,6 +319,9 @@ function meep() {
 
 // Touch graph new
 const el = document.getElementById('chart');
+const elTop = document.getElementById('chartTop');
+const elBot = document.getElementById('chartBot');
+
 const dataFast = [];
 const dataSlow = [];
 const dataFast2 = [];
@@ -379,6 +382,66 @@ const chart = new TimeChart(el, {
     }
 });
 
+const chartTop = new TimeChart(elTop, {
+    baseTime: 0,
+    series: [
+        {
+            name: 'Fast',
+            data: dataFast,
+            color: 'orange'
+        },
+        {
+            name: 'Slow',
+            data: dataSlow,
+            lineWidth: 2,
+            color: 'red',
+            visible: false
+        }
+    ],
+    xScaleType: d3.scaleUtc,
+    realTime: true,
+    zoom: {
+        x: {
+            autoRange: true,
+            minDomainExtent: 50,
+        },
+        y: {
+            autoRange: true,
+            minDomainExtent: 1,
+        },
+        panMouseButtons: 4
+    }
+});
+const chartBot = new TimeChart(elBot, {
+    baseTime: 0,
+    series: [
+        {
+            name: 'Fast',
+            data: dataFast2,
+            color: 'lightgreen'
+        },
+        {
+            name: 'Slow',
+            data: dataSlow2,
+            lineWidth: 2,
+            color: 'green',
+            visible: false
+        }
+    ],
+    xScaleType: d3.scaleUtc,
+    realTime: true,
+    zoom: {
+        x: {
+            autoRange: true,
+            minDomainExtent: 50,
+        },
+        y: {
+            autoRange: true,
+            minDomainExtent: 1,
+        },
+        panMouseButtons: 4
+    }
+});
 // zerotime
 let zeroTime = 0;
 
@@ -630,6 +693,8 @@ function upGraph(obj) {
     dataFast2.push({x: obj.time, y: obj.level2});
     dataSlow2.push({x: obj.time, y: obj.large2});
     chart.update();
+    chartBot.update();
+    chartTop.update();
 }
 
 function saveFile() {
@@ -726,6 +791,8 @@ function loadGraphFile(file) {
             invis.push({x: endTime + timeLength / 2, y: 0});
         }
         chart.update();
+        chartTop.update();
+        chartBot.update();
     }
     fr.readAsText(file);
 }
