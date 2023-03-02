@@ -730,8 +730,31 @@ document.getElementById('flashcam-btn').addEventListener('click', function () {
     rpc('/epr/dootacam');
 });
 
+let stoDatFast = 0;
+let stoDatFastTime = 0;
+
 function upGraph(obj) {
-    dataFast.push({x: obj.time, y: obj.level});
+    // Remove spikes by comparing single point against threshold
+    // based on the two points around it. So we calculate a sort of lef right average.
+    if (dataFast.length > 1) {
+        let back = dataFast[dataFast.length - 1];
+        let middle = stoDatFast;
+        let front = obj.level;
+        let avg = (back + front) / 2;
+
+        if (middle < front && middle < back && middle < (avg - 40)) {
+            middle = avg;
+        }
+        dataFast.push({x: stoDatFastTime, y: stoDatFast});
+        stoDatFast = obj.level;
+        stoDatFastTime = obj.time;
+    } else {
+        dataFast.push({x: obj.time, y: obj.level});
+        stoDatFast = obj.level;
+        stoDatFastTime = obj.time;
+    }
+
+    // dataFast.push({x: obj.time, y: obj.level});
     dataSlow.push({x: obj.time, y: obj.large});
     dataFast2.push({x: obj.time, y: obj.level2});
     dataSlow2.push({x: obj.time, y: obj.large2});
