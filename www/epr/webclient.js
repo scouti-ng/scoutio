@@ -27,6 +27,8 @@ function connect() {
     };
 }
 
+let isAutoRanging = false;
+
 function registerHandler(event, handler) {
     let handlers = eventHandlers.get(event);
     if (!handlers) handlers = [];
@@ -578,16 +580,21 @@ function scrollChart() {
         chart.plugins.zoom.options.x.scale.domain(curDomain);
         chart.update();
     }
+    scalGraphOrSomething(chartTop, dataFast);
+    chartTop.update();
+    scalGraphOrSomething(chartBot, dataFast2);
+    chartBot.update();
 }
 
-function scaleTopGraphOrSomething() {
-    let curDomain = chart.plugins.zoom.options.x.scale.domain();
+function scalGraphOrSomething(chaart, daata) {
+    if (!isAutoRanging) return;
+    let curDomain = chaart.plugins.zoom.options.x.scale.domain();
     let avg = 0;
     let am = 0;
     let cum = 0;
     let min = Infinity;
     let max = -Infinity;
-    for (let d of dataFast) {
+    for (let d of daata) {
         if (d.x > curDomain[0] && d.x < curDomain[1]) {
             am++;
             cum += d.y;
@@ -596,7 +603,7 @@ function scaleTopGraphOrSomething() {
         }
     }
     avg = cum/am;
-    chart.plugins.zoom.options.y.scale.domain([min, max]);
+    chaart.plugins.zoom.options.y.scale.domain([min, max]);
 }
 
 function playPause() {
@@ -715,6 +722,8 @@ function upGraph(obj) {
     dataSlow.push({x: obj.time, y: obj.large});
     dataFast2.push({x: obj.time, y: obj.level2});
     dataSlow2.push({x: obj.time, y: obj.large2});
+    scalGraphOrSomething(chartTop, dataFast);
+    scalGraphOrSomething(chartBot, dataFast2);
     chart.update();
     chartBot.update();
     chartTop.update();
@@ -833,6 +842,21 @@ document.getElementById('load-btn').addEventListener('click', function () {
     let file = document.getElementById("graph-file").files[0];
     if (file) {
         loadGraphFile(file);
+    }
+});
+
+ab = document.getElementById('autoranging');
+ab.addEventListener('click', function () {
+    if (isAutoRanging) {
+        ab.innerHTML = 'Turn Auto-Range ON';
+        isAutoRanging = false;
+    } else {
+        ab.innerHTML = 'Turn Auto-Range OF';
+        isAutoRanging = true;
+        scalGraphOrSomething(chartTop, dataFast);
+        chartTop.update();
+        scalGraphOrSomething(chartBot, dataFast2);
+        chartBot.update();
     }
 });
 
