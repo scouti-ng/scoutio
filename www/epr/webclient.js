@@ -500,6 +500,12 @@ chart.model.updated.on(() => {
     redTimer.innerHTML = `${md.sign}${fixNumberZero(md.date.getUTCHours())}:${fixNumberZero(md.date.getUTCMinutes())}:${fixNumberZero(md.date.getUTCSeconds())}`;
 });
 
+chartTop.model.updated.on(() => {
+    scalGraphOrSomething(chartTop, dataFast);
+});
+chartBot.model.updated.on(() => {
+    scalGraphOrSomething(chartBot, dataFast2);
+});
 
 let lastX;
 let closeEventIndex = -1;
@@ -604,6 +610,7 @@ function scalGraphOrSomething(chaart, daata) {
     }
     avg = cum/am;
     chaart.plugins.zoom.options.y.scale.domain([min, max]);
+    chaart.update();
 }
 
 function playPause() {
