@@ -367,7 +367,7 @@ const chart = new TimeChart(el, {
     ],
     xRange: { min: 0, max: 20 * 1000 },
     xScaleType: d3.scaleUtc,
-    realTime: true,
+    realTime: false,
     zoom: {
         x: {
             autoRange: true,
@@ -402,14 +402,14 @@ const chartTop = new TimeChart(elTop, {
     ],
     xRange: { min: 0, max: 20 * 1000 },
     xScaleType: d3.scaleUtc,
-    realTime: true,
+    realTime: false,
     zoom: {
         x: {
             autoRange: true,
             minDomainExtent: 50,
         },
         y: {
-            autoRange: true,
+            autoRange: false,
             minDomainExtent: 1,
         },
         panMouseButtons: 4
@@ -433,14 +433,14 @@ const chartBot = new TimeChart(elBot, {
     ],
     xRange: { min: 0, max: 20 * 1000 },
     xScaleType: d3.scaleUtc,
-    realTime: true,
+    realTime: false,
     zoom: {
         x: {
             autoRange: true,
             minDomainExtent: 50,
         },
         y: {
-            autoRange: true,
+            autoRange: false,
             minDomainExtent: 1,
         },
         panMouseButtons: 4
@@ -572,6 +572,12 @@ document.getElementById('follow-btn').addEventListener('click', function () {
     chartBot.options.realTime = true;
     chartTop.options.realTime = true;
 });
+
+setTimeout(() => {
+    chart.options.realTime = true;
+    chartBot.options.realTime = true;
+    chartTop.options.realTime = true;
+}, 500);
 
 let playing = -1;
 let maxValue = -1;
