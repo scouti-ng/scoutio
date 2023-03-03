@@ -182,7 +182,7 @@ registerHandler('trees', (trees) => {
             intervalFld.value = trees[treecode].shockbo;
         }
         treebar.appendChild(intervalFld);
-
+//t
         let intervalbtn = document.createElement('button');
         intervalbtn.onclick = function() {
             setShockBo(treecode, intervalFld.value, !(trees[treecode].shockbo !== undefined && trees[treecode].shockbo > 0), pulseWidthFld.value);
@@ -782,7 +782,7 @@ function upGraph(obj) {
         let front = obj.level;
         let avg = (back + front) / 2;
 
-        if (middle < front && middle < back && middle < (avg - 20)) {
+        if (middle < front && middle < back && middle < (avg - 10)) {
             middle = avg;
         }
         dataFast.push({x: stoDatFastTime, y: middle});
@@ -957,7 +957,7 @@ document.onkeydown=function(e){
 registerHandler('tupdate', (obj) => upGraph(obj));
 
 registerHandler('doingShock', (obj) => {
-    beep(100, 200, 500);
+    beep(100, 200, obj.pw + 2200);
     events.push({x: obj.time, name: `start[SHOCK]`});
     events.push({x: obj.time + obj.pw + 2200, name: `end[SHOCK]`});
     chart.update();
