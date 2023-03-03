@@ -332,8 +332,17 @@ module.exports = (router, rnio) => {
     });
 
     router.ws('/touch', (params, client) => {
+        if (!client.props.epr) throw [403, 'No permission!'];
         rnio.subs('eprclient').obj({
             type: 'tupdate',
+            body: params
+        });
+    });
+
+    router.ws('/doingShock', (params, client) => {
+        if (!client.props.epr) throw [403, 'No permission!'];
+        rnio.subs('eprclient').obj({
+            type: 'doingShock',
             body: params
         });
     });

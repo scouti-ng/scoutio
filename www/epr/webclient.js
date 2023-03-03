@@ -1,3 +1,16 @@
+var audioContext = AudioContext && new AudioContext();
+function beep(amp, freq, ms){//amp:0..100, freq in Hz, ms
+  if (!audioContext) return;
+  var osc = audioContext.createOscillator();
+  var gain = audioContext.createGain();
+  osc.connect(gain);
+  osc.value = freq;
+  gain.connect(audioContext.destination);
+  gain.gain.value = amp/100;
+  osc.start(audioContext.currentTime);
+  osc.stop(audioContext.currentTime+ms/1000);
+}
+
 // Open socket connction for all use.
 let socket = null;
 let eventHandlers = new Map();
@@ -413,6 +426,9 @@ const chartTop = new TimeChart(elTop, {
             minDomainExtent: 1,
         },
         panMouseButtons: 4
+    },
+    plugins: {
+        events: new TimeChart.plugins_extra.EventsPlugin(events),
     }
 });
 const chartBot = new TimeChart(elBot, {
@@ -444,6 +460,9 @@ const chartBot = new TimeChart(elBot, {
             minDomainExtent: 1,
         },
         panMouseButtons: 4
+    },
+    plugins: {
+        events: new TimeChart.plugins_extra.EventsPlugin(events),
     }
 });
 // zerotime
@@ -507,6 +526,12 @@ chartBot.model.updated.on(() => {
     scalGraphOrSomething(chartBot, dataFast2);
 });
 
+function updateGraphs() {
+    chart.update();
+    chartTop.update();
+    chartBot.update();
+}
+
 let lastX;
 let closeEventIndex = -1;
 let draggingEvent = -1;
@@ -533,7 +558,7 @@ document.addEventListener('mousedown', function(event) {
 document.addEventListener('mouseup', function(event) {
     if (event.button == 0 && draggingEvent != -1) {
         events[draggingEvent].x = lastX;
-        chart.update();
+        updateGraphs();
         draggingEvent = -1;
         document.body.style.cursor = 'auto';
     }
@@ -640,7 +665,9 @@ function playPause() {
 document.getElementById('zero-btn').addEventListener('click', function() {
     zeroTime = -getChartMiddleTime();
     chart.options.baseTime = zeroTime;
-    chart.update();
+    chartTop.options.baseTime = zeroTime;
+    chartBot.options.baseTime = zeroTime;
+    updateGraphs();
 });
 
 document.getElementById('playpause-btn').addEventListener('click', function () {
@@ -657,16 +684,28 @@ document.getElementById('slowtoggle-btn').addEventListener('click', function() {
         chart.options.series.forEach(data => {
             if (data.name.includes('Slow')) data.visible = false;
         });
+        chartTop.options.series.forEach(data => {
+            if (data.name.includes('Slow')) data.visible = false;
+        });
+        chartBot.options.series.forEach(data => {
+            if (data.name.includes('Slow')) data.visible = false;
+        });
         document.getElementById('slowtoggle-btn').innerHTML = 'Show Slow';
         showSlow = false;
-        chart.update();
+        updateGraphs();
     } else {
         chart.options.series.forEach(data => {
             if (data.name.includes('Slow')) data.visible = true;
-        })
+        });
+        chartTop.options.series.forEach(data => {
+            if (data.name.includes('Slow')) data.visible = true;
+        });
+        chartBot.options.series.forEach(data => {
+            if (data.name.includes('Slow')) data.visible = true;
+        });
         document.getElementById('slowtoggle-btn').innerHTML = 'Hide Slow';
         showSlow = true;
-        chart.update();
+        updateGraphs();
     }
 });
 
@@ -733,19 +772,20 @@ document.getElementById('flashcam-btn').addEventListener('click', function () {
 let stoDatFast = 0;
 let stoDatFastTime = 0;
 
+
 function upGraph(obj) {
     // Remove spikes by comparing single point against threshold
     // based on the two points around it. So we calculate a sort of lef right average.
     if (dataFast.length > 1) {
-        let back = dataFast[dataFast.length - 1];
+        let back = dataFast[dataFast.length - 1].y;
         let middle = stoDatFast;
         let front = obj.level;
         let avg = (back + front) / 2;
 
-        if (middle < front && middle < back && middle < (avg - 40)) {
+        if (middle < front && middle < back && middle < (avg - 20)) {
             middle = avg;
         }
-        dataFast.push({x: stoDatFastTime, y: stoDatFast});
+        dataFast.push({x: stoDatFastTime, y: middle});
         stoDatFast = obj.level;
         stoDatFastTime = obj.time;
     } else {
@@ -760,9 +800,7 @@ function upGraph(obj) {
     dataSlow2.push({x: obj.time, y: obj.large2});
     scalGraphOrSomething(chartTop, dataFast);
     scalGraphOrSomething(chartBot, dataFast2);
-    chart.update();
-    chartBot.update();
-    chartTop.update();
+    updateGraphs();
 }
 
 function saveFile() {
@@ -793,7 +831,7 @@ bigpage.addEventListener('contextmenu', function (e) {
                 events.push({x: lastX, name: `start[${name}]`});
                 events.push({x: lastX + 1000, name: `end[${name}]`});
             }
-            chart.update();
+            updateGraphs();
         } else {
             if (window.confirm(`Rename event ${events[closeEventIndex].name}?`)) {
                 let newName = prompt('Enter name:');
@@ -802,11 +840,11 @@ bigpage.addEventListener('contextmenu', function (e) {
                     if (oldName.includes('start')) events[closeEventIndex].name = `start[${newName}]`;
                     else if (oldName.includes('end')) events[closeEventIndex].name = `end[${newName}]`;
                     else events[closeEventIndex].name = newName;
-                    chart.update();
+                    updateGraphs();
                 }
             } else if (window.confirm(`Delete event ${events[closeEventIndex].name}?`)){
                 events.splice(closeEventIndex, 1);
-                chart.update();
+                updateGraphs();
             }
         }
 
@@ -858,9 +896,7 @@ function loadGraphFile(file) {
             invis.push({x: startTime - timeLength / 2, y: 0});
             invis.push({x: endTime + timeLength / 2, y: 0});
         }
-        chart.update();
-        chartTop.update();
-        chartBot.update();
+        updateGraphs();
     }
     fr.readAsText(file);
 }
@@ -919,6 +955,13 @@ document.onkeydown=function(e){
 }
 
 registerHandler('tupdate', (obj) => upGraph(obj));
+
+registerHandler('doingShock', (obj) => {
+    beep(100, 200, 500);
+    events.push({x: obj.time, name: `start[SHOCK]`});
+    events.push({x: obj.time + obj.pw + 2200, name: `end[SHOCK]`});
+    chart.update();
+});
 
 //OPEN THE SOCKET!
 connect();
