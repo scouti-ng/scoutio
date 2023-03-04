@@ -86,8 +86,8 @@ module.exports = (router, rnio) => {
                         .highlight {
                             background-color: lightgrey;
                         }
-                        .follow-btn {
-                            width: 100%;
+                        #follow-btn {
+                            width: 100vw;
                         }
                         body {
                             transition: 0.15s ease-in;
