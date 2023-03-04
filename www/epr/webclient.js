@@ -776,6 +776,7 @@ let stoDatFastTime = 0;
 function upGraph(obj) {
     // Remove spikes by comparing single point against threshold
     // based on the two points around it. So we calculate a sort of lef right average.
+    lastRecvX = obj.time;
     if (dataFast.length > 1) {
         let back = dataFast[dataFast.length - 1].y;
         let middle = stoDatFast;
@@ -821,6 +822,7 @@ function highlight(e) {
 function unhighlight(e) {
     bigpage.classList.remove('highlight')
 }
+let lastRecvX = 0;
 // prompt event on right click.
 bigpage.addEventListener('contextmenu', function (e) {
     if (lastX) {
@@ -828,8 +830,9 @@ bigpage.addEventListener('contextmenu', function (e) {
         if (closeEventIndex == -1) {
             let name = prompt('Enter event name');
             if (name) {
-                events.push({x: lastX, name: `start[${name}]`});
-                events.push({x: lastX + 1000, name: `end[${name}]`});
+                events.push({x: lastRecvX, name: name});
+                // events.push({x: lastX, name: `start[${name}]`});
+                // events.push({x: lastX + 1000, name: `end[${name}]`});
             }
             updateGraphs();
         } else {
