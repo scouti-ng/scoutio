@@ -24,6 +24,10 @@ module.exports = {
         counterstrijk: {
             client: file(__dirname + '/game/counterstrijk/client/client.html'),
             server: file(__dirname + '/game/counterstrijk/server/server.html')
+        },
+        stoptime: {
+            client: file(__dirname + '/game/stoptime/client/client.html'),
+            server: file(__dirname + '/game/stoptime/server/server.html')
         }
     },
     /**

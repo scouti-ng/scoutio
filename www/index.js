@@ -54,6 +54,7 @@ module.exports = (router, rnio) => {
         } else {
             switch (params.game) {
                 case '1vs100':
+                case 'stoptime':
                 case 'counterstrijk':
                     let roomInfo = GameUtils.newRoom(params.game);
                     client.cookie('token', await rnio.token.sign({
@@ -73,4 +74,5 @@ module.exports = (router, rnio) => {
     // Import the games
     router.use('/game/1vs100', require('./game/1v100/'));
     router.use('/game/counterstrijk', require('./game/counterstrijk/'));
+    router.use('/game/stoptime', require('./game/stoptime/'));
 };
