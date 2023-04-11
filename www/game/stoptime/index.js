@@ -63,12 +63,11 @@ module.exports = (router, rnio) => {
             let roomInfo = GameUtils.getRoom(client.token.room);
             if (client.token.type == 'client') {
                 client.subscribe(`${client.token.room}-client`);
+                client.subscribe(`${client.token.room}-client-${client.token.username}`);
                 // Insert playerdata if not already there.
                 let playerInfo = roomInfo.players[client.token.username];
                 if (!playerInfo) {
-                    playerInfo = {
-                        themany: true
-                    };
+                    playerInfo = { };
                 }
                 playerInfo.username = client.token.username;
                 playerInfo.online = true;
@@ -122,31 +121,27 @@ module.exports = (router, rnio) => {
     router.ws('/clickUser', (params, client) => {
         if (!client.token.room || client.token.game != 'stoptime') throw [403, 'Not in game?!'];
         let roomInfo = GameUtils.getRoom(client.token.room);
-        // IF in lobby we selected 'the one' go into game state!
-        if (roomInfo.state = 'lobby') {
-            if (params.username = '!!random!!') {
-                let playerNames = Object.keys(roomInfo.players);
-                let rdmName = playerNames[Math.floor(Math.random() * playerNames.length)];
-                params.username = rdmName;
-            }
-            let playerInfo = roomInfo.players[params.username];
-            playerInfo.theone = true;
-            playerInfo.themany = false;
-            roomInfo.state = 'game';
-            broadcastGameInfo(client.token.room);
-            broadcastPlayers(client.token.room);
-        }
-        
+        rnio.subs(`${client.token.room}-client-${params.username}`).obj({
+            type: 'redirect',
+            body: '/?error=Kicked from room!'
+        });
+        delete roomInfo.players[params.username];
+        broadcastPlayers(client.token.room);
+        // TODO Actually kick the websocket? Hack proving etc. Revoke token.
     });
 
     router.ws('/answer', (params, client) => {
         if (!client.token.room || client.token.game != 'stoptime') throw [403, 'Not in game?!'];
         let roomInfo = GameUtils.getRoom(client.token.room);
+        if (roomInfo.state !== 'game') return;
         let playerInfo = roomInfo.players[client.token.username];
         playerInfo.lastAnswer = params.option;
+        playerInfo.dead = true;
+        playerInfo.theone = true;
         roomInfo.lastPlayer = client.token.username;
         roomInfo.state = 'lobby';
         broadcastGameInfo(client.token.room);
+        broadcastPlayers(client.token.room);
     });
 
     // Reset from server just resets the game.
@@ -154,6 +149,10 @@ module.exports = (router, rnio) => {
         if (!client.token.room || client.token.game != 'stoptime') throw [403, 'Not in game?!'];
         let roomInfo = GameUtils.getRoom(client.token.room);
         roomInfo.state = 'lobby';
+        if (roomInfo.players[roomInfo.lastPlayer]) {
+            roomInfo.players[roomInfo.lastPlayer].dead = false;
+            roomInfo.players[roomInfo.lastPlayer].theone = false;
+        }
         roomInfo.lastPlayer = '';
         broadcastGameInfo(client.token.room);
         broadcastPlayers(client.token.room);
@@ -165,7 +164,13 @@ module.exports = (router, rnio) => {
         let roomInfo = GameUtils.getRoom(client.token.room);
         if (roomInfo.state == 'lobby') {
             roomInfo.state = 'game';
+            if (roomInfo.players[roomInfo.lastPlayer]) {
+                roomInfo.players[roomInfo.lastPlayer].dead = false;
+                roomInfo.players[roomInfo.lastPlayer].theone = false;
+            }
+            roomInfo.lastPlayer = '';
             broadcastGameInfo(client.token.room);
+            broadcastPlayers(client.token.room);
         }
     });
 

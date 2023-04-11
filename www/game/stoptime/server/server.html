@@ -5,14 +5,9 @@
             <h2 id="roomcode">CODE: $room$</h2>
         </div>
         <div id="buttons">
-            <div id="prize">€0,-</div>
-            <button id="nextBtn" class="btn" onclick="next()">Next</button>
-            <div id="abc">
-                <button id="aBtn" class="btn abtn" disabled onclick="answer('A')">A</button>
-                <button id="bBtn" class="btn bbtn" disabled onclick="answer('B')">B</button>
-                <button id="cBtn" class="btn cbtn" disabled onclick="answer('C')">C</button>
-            </div>
-            <div id="status">Select 'the one' to begin.</div>
+            <div id="prize">Time: <span id="time">00:00:00</span></div>
+            <button id="nextBtn" class="btn" onclick="next()">Start</button>
+            <div id="status">Select 'start' to begin.</div>
             <button id="resetBtn" class="btn" onclick="reset()">Reset</button>
         </div>
     </div>

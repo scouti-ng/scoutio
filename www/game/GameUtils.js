@@ -7,10 +7,10 @@ module.exports = {
         for (let i = 0; i<6; i++) ret += codeChars.charAt(Math.floor(Math.random() * codeChars.length));
         return ret;
     },
-    newRoom(game) {
+    newRoom(game, preferredCode) {
         let room = null;
         while (room == null) {
-            let code = this.generateCode();
+            let code = preferredCode || this.generateCode();
             if (!rooms.get(code)) {
                 room = {game, code, players: {}, state: 'lobby'};
                 rooms.set(code, room);

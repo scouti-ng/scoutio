@@ -56,7 +56,8 @@ module.exports = (router, rnio) => {
                 case '1vs100':
                 case 'stoptime':
                 case 'counterstrijk':
-                    let roomInfo = GameUtils.newRoom(params.game);
+                    let prefCode = params.scintilla ? 'TESLA3' : null;
+                    let roomInfo = GameUtils.newRoom(params.game, prefCode);
                     client.cookie('token', await rnio.token.sign({
                         type: 'server',
                         game: roomInfo.game,

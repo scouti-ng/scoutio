@@ -62,7 +62,7 @@
     display: block;
     width: 80vw;
     max-width: 15rem;
-    border: 2px dashed var(--cprimary);
+    /* border: 2px dashed var(--cprimary); */
     border-radius: 1rem;
     margin-top: 1.5rem;
 }

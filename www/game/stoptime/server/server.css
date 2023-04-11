@@ -16,7 +16,7 @@
     display: block;
     width: 80vw;
     max-width: 15rem;
-    border: 2px dashed var(--cprimary);
+    /* border: 2px dashed var(--cprimary); */
     border-radius: 1rem;
     margin-top: 1.5rem;
 }
@@ -111,7 +111,7 @@
 }
 
 #buttons {
-    width: 25rem;
+    width: 65rem;
     margin-left: 2rem;
     border-radius: 1rem;
     overflow: hidden;
@@ -140,6 +140,6 @@
 
 #prize {
     background-color: whitesmoke;
-    font-size: xx-large;
+    font-size: 5vw;
     text-align: center;
 }
