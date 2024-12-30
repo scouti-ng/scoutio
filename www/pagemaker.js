@@ -1,5 +1,6 @@
 const fs = require('fs');
 const xss = require('xss');
+const scorescout = require('./game/scorescout');
 /** @typedef {import("restnio").Client} Client */
 ///dfsdffds
 
@@ -28,6 +29,10 @@ module.exports = {
         stoptime: {
             client: file(__dirname + '/game/stoptime/client/client.html'),
             server: file(__dirname + '/game/stoptime/server/server.html')
+        },
+        scorescout: {
+            client: file(__dirname + '/game/scorescout/client/client.html'),
+            server: file(__dirname + '/game/scorescout/server/server.html')
         }
     },
     /**
