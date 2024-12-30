@@ -1,0 +1,145 @@
+.pagewrapper {
+    justify-content: start;
+}
+
+#roomcode {
+    display: block;
+    width: 80vw;
+    max-width: 20vw;
+    text-align: center;
+    background-color: var(--cwhite);
+    border: 2px dashed var(--cprimary);
+    border-radius: 1rem;
+}
+
+.gamelogo {
+    display: block;
+    width: 80vw;
+    max-width: 15rem;
+    /* border: 2px dashed var(--cprimary); */
+    border-radius: 1rem;
+    margin-top: 1.5rem;
+}
+
+#waiting-area {
+    display: flex;
+    justify-content: space-between;
+}
+
+#waitingforplayers {
+    width: 100%;
+    text-align: center;
+}
+
+#head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#players {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.DEAD {
+    color: red !important;
+    background-color: var(--cwhitered) !important;
+}
+
+.waitingplayer {
+    width: 10rem;
+    padding: 0.25rem;
+    overflow: hidden;
+    border: 2px dashed black;
+    border-radius: 1rem;
+    background-color: var(--cwhite);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0.5rem;
+}
+
+.waitingplayer:hover i {
+    text-shadow: 0 0 8px var(--cbright);
+}
+
+.waitingplayer i {
+    font-size: 5rem;
+    display: block;
+    color: var(--cprimary);
+    transition: 0.25s ease-in-out;
+}
+
+.waitingplayer .waitingname {
+    display: block;
+}
+
+
+.loader {
+    display: inline-block;
+    border: 1rem solid var(--cbacky); /* Light grey */
+    border-top: 1rem solid var(--cprimary); /* Blue */
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#servertop {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.btn {
+    width: 100%;
+    font-weight: bold;
+}
+
+#abc {
+    display: flex;
+}
+
+#buttons {
+    width: 65rem;
+    margin-left: 2rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 2px dashed black;
+}
+
+#aBtn {
+    background-color: rgb(255, 115, 115);
+}
+
+#bBtn {
+    background-color: rgb(70, 128, 70);
+}
+
+#cBtn {
+    background-color: rgb(125, 125, 252);
+}
+
+#status {
+    color: rgb(205, 50, 166);
+    font-size: larger;
+    text-align: center;
+    width: 100%;
+    background-color: white;
+}
+
+#prize {
+    background-color: whitesmoke;
+    font-size: 5vw;
+    text-align: center;
+}

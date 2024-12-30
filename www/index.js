@@ -56,7 +56,9 @@ module.exports = (router, rnio) => {
                 case '1vs100':
                 case 'stoptime':
                 case 'counterstrijk':
+                case 'scorescout':
                     let prefCode = params.scintilla ? 'TESLA3' : null;
+                    if (params.kasper) prefCode = 'KASPER';
                     let roomInfo = GameUtils.newRoom(params.game, prefCode);
                     client.cookie('token', await rnio.token.sign({
                         type: 'server',
@@ -76,4 +78,5 @@ module.exports = (router, rnio) => {
     router.use('/game/1vs100', require('./game/1v100/'));
     router.use('/game/counterstrijk', require('./game/counterstrijk/'));
     router.use('/game/stoptime', require('./game/stoptime/'));
+    router.use('/game/scorescout', require('./game/scorescout'));
 };
