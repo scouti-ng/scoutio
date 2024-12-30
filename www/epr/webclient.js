@@ -624,7 +624,7 @@ function scrollChart() {
 }
 
 function scalGraphOrSomething(chaart, daata) {
-    if (!isAutoRanging) return;
+    // if (!isAutoRanging) return;
     let curDomain = chaart.plugins.zoom.options.x.scale.domain();
     let avg = 0;
     let am = 0;
@@ -796,7 +796,7 @@ function upGraph(obj) {
     }
 
     // dataFast.push({x: obj.time, y: obj.level});
-    dataSlow.push({x: obj.time, y: obj.large});
+    dataSlow.push( {x: obj.time, y: obj.large});
     dataFast2.push({x: obj.time, y: obj.level2});
     dataSlow2.push({x: obj.time, y: obj.large2});
     scalGraphOrSomething(chartTop, dataFast);
