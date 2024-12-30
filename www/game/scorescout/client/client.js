@@ -1,6 +1,6 @@
 // On connect subscribe to the room:
 registerHandler('onOpen', () => {
-    rpc('/game/stoptime/register', {token: getCookie('token')});
+    rpc('/game/scorescout/register', {token: getCookie('token')});
 });
 
 //debug
@@ -24,5 +24,5 @@ registerHandler('gameInfo', (body) => {
 document.onclick = answer;
 
 function answer() {
-    rpc('/game/stoptime/answer');
+    rpc('/game/scorescout/answer');
 }
