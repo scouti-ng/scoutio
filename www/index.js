@@ -78,5 +78,5 @@ module.exports = (router, rnio) => {
     router.use('/game/1vs100', require('./game/1v100/'));
     router.use('/game/counterstrijk', require('./game/counterstrijk/'));
     router.use('/game/stoptime', require('./game/stoptime/'));
-    router.use('/game/scorescout', require('./game/scorescout'));
+    router.use('/game/scorescout', require('./game/scorescout/'));
 };
