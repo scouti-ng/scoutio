@@ -1,6 +1,6 @@
 const fs = require('fs');
 const xss = require('xss');
-const scorescout = require('./game/scorescout');
+
 /** @typedef {import("restnio").Client} Client */
 ///dfsdffds
 
