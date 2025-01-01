@@ -27,9 +27,6 @@ function connect() {
     };
 }
 
-//OPEN THE SOCKET!
-connect();
-
 function registerHandler(event, handler) {
     let handlers = eventHandlers.get(event);
     if (!handlers) handlers = [];
@@ -58,3 +55,6 @@ function getCookie(name) {
 function rpc(path, params) {
     socket.send(JSON.stringify({path, params}));
 }
+
+//OPEN THE SOCKET!
+connect();

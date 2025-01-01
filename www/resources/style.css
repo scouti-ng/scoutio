@@ -2,7 +2,8 @@
     --cprimary:     #698f3f;
     --cbright:      yellowgreen;
     --csecondary:   #31461a;
-    --cbacky:       #3835350b;
+    --cbacky:       #31461a09;
+    --cbacks:       #688f3f41;
     --cwhite:       #ffffff;
     --clight:       #ada2a2;
     --cwhitered:    #f3b6b6;
@@ -20,11 +21,12 @@ body {
     justify-content: space-between;
     margin: 0;
     padding: 0;
-    min-height: 100vh;
-    height: 100vh;
+    min-height: 100svh;
+    height: 100svh;
     width: 100%;
 
     /* Background thingy */
+
     background-color: #fff;
     background-image: radial-gradient(circle, var(--cbacky) 30%, transparent 10%), radial-gradient(circle, var(--cbacky) 20%, transparent 10%);
     background-size: 10px 10px;
@@ -43,7 +45,7 @@ header {
     overflow: hidden;
 
     border-bottom: 1px dashed black;
-    background-color: var(--cwhite);
+    background-color: var(--cbacks);
     border-bottom-left-radius: 50%;
     border-bottom-right-radius: 50%;
     z-index: 1;
@@ -90,7 +92,7 @@ footer {
     overflow: hidden;
 
     border-top: 1px dashed black;
-    background-color: var(--cwhite);
+    background-color: var(--cbacks);
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
 }
