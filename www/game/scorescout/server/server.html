@@ -5,10 +5,23 @@
             <h2 id="roomcode">CODE: $room$</h2>
         </div>
         <div id="buttons">
-            <div id="prize">Time: <span id="time">00:00:00</span></div>
-            <button id="nextBtn" class="btn" onclick="next()">Start</button>
-            <div id="status">Select 'start' to begin.</div>
-            <button id="resetBtn" class="btn" onclick="reset()">Reset</button>
+            <div id="controls">
+                <div id="prize">Time: <span id="time">00:00:00</span></div>
+                <div id="status"></div>
+                <button id="nextBtn" class="btn" onclick="next()">Start</button>
+                <div class="spread">
+                    <button id="pauseBtn" class="btn" onclick="pause()" disabled>Pause</button>
+                    <button id="stopBtn" class="btn" onclick="stop()">Reset Scores</button>
+                </div>
+            </div>
+            <div id="settings">
+                <div><strong>Settings:</strong></div>
+                <div>Finding time: <input id="infidingtime" type="time" step="1" style="width: 25ex; text-align: center;"/></div>
+                <div>Game time:&nbsp;&nbsp;&nbsp;&nbsp;<input id="ingametime" type="time" step="1" style="width: 25ex; text-align: center;"/></div>
+                <div>Scoring time: <input id="inscoringtime" type="time" step="1" style="width: 25ex; text-align: center;"/></div>
+                <div>Maximum team size: <input id="inmaxteamsize" type="number" step="1" style="width: 19ex; text-align: center;"/></div>
+                <button id="settingsBtn" class="btn" onclick="saveSettings()">Save Settings</button>
+            </div>
         </div>
     </div>
 
@@ -18,7 +31,7 @@
             Waiting for players...<br/><br/>
             <div class="loader"></div>
         </div>
-        <div id="players">
+        <div id="players" style="display: none;">
             <!-- <div class="waitingplayer">
                 <i class="fas fa-user"></i>
                 <div class="waitingname">7kasper</div>

@@ -20,10 +20,10 @@ function connect() {
     }
     socket.onclose = function(e) {
         callEvent('onClose', e.reason);
-        console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+        console.log('Socket is closed. Reconnect will be attempted in 10 seconds.', e.reason);
         setTimeout(function() {
             connect();
-        }, 1000);
+        }, 10000);
     };
 }
 
